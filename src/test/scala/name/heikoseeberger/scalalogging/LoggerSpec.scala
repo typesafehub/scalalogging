@@ -14,9 +14,17 @@
  * limitations under the License.
  */
 
-package name.heikoseeberger
+package name.heikoseeberger.scalalogging
 
-/*
-package object scalalogging {
+import java.util.logging.{ Logger => JLogger }
+
+// TODO Change to specs2 as soon as available!
+object LoggerSpec {
+
+  def main(args: Array[String]): Unit = {
+    val logger = Logger(JLogger.getLogger("test"))
+    logger.info(message)
+  }
+
+  private def message = "Some log message!"
 }
-*/

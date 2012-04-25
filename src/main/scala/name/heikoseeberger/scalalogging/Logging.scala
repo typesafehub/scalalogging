@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package name.heikoseeberger
+package name.heikoseeberger.scalalogging
 
-/*
-package object scalalogging {
+import java.util.logging.{ Logger => JLogger }
+
+trait Logging {
+
+  protected val logger = Logger(JLogger.getLogger(getClass.getName))
 }
-*/
