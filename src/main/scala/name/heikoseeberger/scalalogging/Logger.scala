@@ -50,62 +50,45 @@ final class Logger private (val underlying: JLogger) {
 private object LoggerMacros {
 
   def error(c: Context { type PrefixType = Logger })(message: c.Expr[String]): c.Expr[Unit] =
-    c.reify(
-      if (c.prefix.eval.underlying.isLoggable(Level.SEVERE))
-        c.prefix.eval.underlying.log(Level.SEVERE, message.eval)
-    )
+    impl(c)(message, c.reify(Level.SEVERE), None)
 
   def errorT(c: Context { type PrefixType = Logger })(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
-    c.reify(
-      if (c.prefix.eval.underlying.isLoggable(Level.SEVERE))
-        c.prefix.eval.underlying.log(Level.SEVERE, message.eval, t.eval)
-    )
+    impl(c)(message, c.reify(Level.SEVERE), Some(t))
 
   def warn(c: Context { type PrefixType = Logger })(message: c.Expr[String]): c.Expr[Unit] =
-    c.reify(
-      if (c.prefix.eval.underlying.isLoggable(Level.WARNING))
-        c.prefix.eval.underlying.log(Level.WARNING, message.eval)
-    )
+    impl(c)(message, c.reify(Level.WARNING), None)
 
   def warnT(c: Context { type PrefixType = Logger })(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
-    c.reify(
-      if (c.prefix.eval.underlying.isLoggable(Level.WARNING))
-        c.prefix.eval.underlying.log(Level.WARNING, message.eval, t.eval)
-    )
+    impl(c)(message, c.reify(Level.WARNING), Some(t))
 
   def info(c: Context { type PrefixType = Logger })(message: c.Expr[String]): c.Expr[Unit] =
-    c.reify(
-      if (c.prefix.eval.underlying.isLoggable(Level.INFO))
-        c.prefix.eval.underlying.log(Level.INFO, message.eval)
-    )
+    impl(c)(message, c.reify(Level.INFO), None)
 
   def infoT(c: Context { type PrefixType = Logger })(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
-    c.reify(
-      if (c.prefix.eval.underlying.isLoggable(Level.INFO))
-        c.prefix.eval.underlying.log(Level.INFO, message.eval, t.eval)
-    )
+    impl(c)(message, c.reify(Level.INFO), Some(t))
 
   def debug(c: Context { type PrefixType = Logger })(message: c.Expr[String]): c.Expr[Unit] =
-    c.reify(
-      if (c.prefix.eval.underlying.isLoggable(Level.FINE))
-        c.prefix.eval.underlying.log(Level.FINE, message.eval)
-    )
+    impl(c)(message, c.reify(Level.FINE), None)
 
   def debugT(c: Context { type PrefixType = Logger })(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
-    c.reify(
-      if (c.prefix.eval.underlying.isLoggable(Level.FINE))
-        c.prefix.eval.underlying.log(Level.FINE, message.eval, t.eval)
-    )
+    impl(c)(message, c.reify(Level.FINE), Some(t))
 
   def trace(c: Context { type PrefixType = Logger })(message: c.Expr[String]): c.Expr[Unit] =
-    c.reify(
-      if (c.prefix.eval.underlying.isLoggable(Level.FINEST))
-        c.prefix.eval.underlying.log(Level.FINEST, message.eval)
-    )
+    impl(c)(message, c.reify(Level.FINEST), None)
 
   def traceT(c: Context { type PrefixType = Logger })(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
-    c.reify(
-      if (c.prefix.eval.underlying.isLoggable(Level.FINEST))
-        c.prefix.eval.underlying.log(Level.FINEST, message.eval, t.eval)
-    )
+    impl(c)(message, c.reify(Level.FINEST), Some(t))
+
+  def impl(c: Context { type PrefixType = Logger })(message: c.Expr[String], level: c.Expr[Level], t: Option[c.Expr[Throwable]]): c.Expr[Unit] = {
+    val logger = c.reify(c.prefix.eval.underlying)
+
+    val body = t match {
+      case Some(tExpr) =>
+        c.reify(logger.eval.log(level.eval, message.eval, tExpr.eval))
+      case None =>
+        c.reify(logger.eval.log(level.eval, message.eval))
+    }
+
+    c.reify(if (logger.eval.isLoggable(level.eval)) body.eval)
+  }
 }
