@@ -21,9 +21,19 @@ import language.experimental.macros
 import scala.reflect.makro.Context
 
 object Logger {
+
+  /**
+   * Create a [[name.heikoseeberger.scalalogging.Logger]] wrapping the given underlying ''java.util.logger.Logger''.
+   */
   def apply(underlying: JLogger): Logger = new Logger(underlying)
 }
 
+/**
+ * Convenient and performant wrapper around the given underlying ''java.util.logger.Logger''.
+ *
+ * Convenient, because it is not necessary to write the check-enabled idiom (check whether the a particular log level is enabled) manually.
+ * Performant, because by using macros the log methods are expanded inline to the check-enabled idiom.
+ */
 final class Logger private (val underlying: JLogger) {
 
   def error(message: String): Unit = macro LoggerMacros.error

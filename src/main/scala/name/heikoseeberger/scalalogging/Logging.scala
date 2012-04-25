@@ -19,16 +19,22 @@ package name.heikoseeberger.scalalogging
 import java.util.logging.{ Logger => JLogger }
 
 /**
- * Adds the lazy val logger of type [[Logger]] to the class into which this trait is mixed.
- * If you need a not-lazy [[Logger]], which would probably be a special case, use [[StrictLogging]].
+ * Adds the lazy val logger of type [[$Logger]] to the class into which this trait is mixed.
+ *
+ * If you need a not-lazy [[$Logger]], which would probably be a special case, use [[name.heikoseeberger.scalalogging.StrictLogging]].
+ *
+ * @define Logger name.heikoseeberger.scalalogging.Logger
  */
 trait Logging {
   protected lazy val logger = Logger(JLogger.getLogger(getClass.getName))
 }
 
 /**
- * Adds the not-lazy val logger of type [[Logger]] to the class into which this trait is mixed.
- * If you need a lazy [[Logger]], which would probably be preferrable, use [[Logging]].
+ * Adds the not-lazy val logger of type [[$Logger]] to the class into which this trait is mixed.
+ *
+ * If you need a lazy [[$Logger]], which would probably be preferrable, use [[name.heikoseeberger.scalalogging.Logging]].
+ *
+ * @define Logger name.heikoseeberger.scalalogging.Logger
  */
 trait StrictLogging {
   protected val logger = Logger(JLogger.getLogger(getClass.getName))
