@@ -16,16 +16,32 @@ object Build extends Build {
   )
 
   def commonSettings = 
-    Defaults.defaultSettings ++ 
-    Seq(
+    Defaults.defaultSettings ++ Seq(
       resolvers += Opts.resolver.sonatypeSnapshots,
-      organization := "name.heikoseeberger.scalalogging",
+      organization := "name.heikoseeberger",
       scalaVersion := "2.10.0-SNAPSHOT",
       scalacOptions ++= Seq("-unchecked", "-deprecation", "-optimize"),
       libraryDependencies ++= Seq(
 //        Dependencies.Test.Specs2
       ),
-      initialCommands in console := "import name.heikoseeberger.scalalogging._"
+      initialCommands in console := "import name.heikoseeberger.scalalogging._",
+      licenses := Seq("Apache 2.0 License" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
+      homepage := Some(url("https://github.com/hseeberger/scalalogging")),
+      publishTo <<= version(v => Option(if (v.trim endsWith "SNAPSHOT") Opts.resolver.sonatypeSnapshots else Opts.resolver.sonatypeStaging)),
+      publishArtifact in Test := false,
+      pomIncludeRepository := (_ => false),
+      pomExtra :=
+        <scm>
+          <url>https://github.com/hseeberger/scalalogging</url>
+          <connection>scm:git:git://github.com/hseeberger/scalalogging.git</connection>
+        </scm>
+        <developers>
+          <developer>
+            <id>hseeberger</id>
+            <name>Heiko Seeberger</name>
+            <url>http://heikoseeberger.name</url>
+          </developer>
+        </developers>
     ) /*++
     scalariformSettings*/
 

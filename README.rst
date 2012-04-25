@@ -24,6 +24,18 @@ Prerequisites
 * Scala 2.10 (because of macros)
 
 
+Using ScalaLogging
+------------------
+
+ScalaLogging is published to the Sonatype OSS snapshot and release repositories. As the Sonatype OSS release repository is mirrored to Maven Central, you can use releases without adding custom resolvers to your sbt build definition or custom repositories to your Maven POM. The organization (group id) is *name.heikoseeberger* and the name (artifact id) is *scalalogging*.
+
+The following example shows how to add a dependency to the latest snapshot version of ScalaLogging to your sbt (0.12 or later) build definition::
+
+  resolvers += Opts.resolver.sonatypeSnapshots
+
+  libraryDependencies += "name.heikoseeberger" %% "scalalogging" % "0.1.0-SNAPSHOT" cross CrossVersion.full
+
+
 Contribution policy
 -------------------
 
