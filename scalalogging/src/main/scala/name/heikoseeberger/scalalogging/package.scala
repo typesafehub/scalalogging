@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+/*
 package name.heikoseeberger
 
-/*
 package object scalalogging {
 }
 */
