@@ -59,39 +59,41 @@ final class Logger private (val underlying: JLogger) {
 
 private object LoggerMacros {
 
-  def error(c: Context { type PrefixType = Logger })(message: c.Expr[String]): c.Expr[Unit] =
+  type LoggerContext = Context { type PrefixType = Logger }
+
+  def error(c: LoggerContext)(message: c.Expr[String]): c.Expr[Unit] =
     log(c)(c.reify(Level.SEVERE), message, None)
 
-  def errorT(c: Context { type PrefixType = Logger })(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
+  def errorT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
     log(c)(c.reify(Level.SEVERE), message, Some(t))
 
-  def warn(c: Context { type PrefixType = Logger })(message: c.Expr[String]): c.Expr[Unit] =
+  def warn(c: LoggerContext)(message: c.Expr[String]): c.Expr[Unit] =
     log(c)(c.reify(Level.WARNING), message, None)
 
-  def warnT(c: Context { type PrefixType = Logger })(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
+  def warnT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
     log(c)(c.reify(Level.WARNING), message, Some(t))
 
-  def info(c: Context { type PrefixType = Logger })(message: c.Expr[String]): c.Expr[Unit] =
+  def info(c: LoggerContext)(message: c.Expr[String]): c.Expr[Unit] =
     log(c)(c.reify(Level.INFO), message, None)
 
-  def infoT(c: Context { type PrefixType = Logger })(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
+  def infoT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
     log(c)(c.reify(Level.INFO), message, Some(t))
 
-  def debug(c: Context { type PrefixType = Logger })(message: c.Expr[String]): c.Expr[Unit] =
+  def debug(c: LoggerContext)(message: c.Expr[String]): c.Expr[Unit] =
     log(c)(c.reify(Level.FINE), message, None)
 
-  def debugT(c: Context { type PrefixType = Logger })(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
+  def debugT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
     log(c)(c.reify(Level.FINE), message, Some(t))
 
-  def trace(c: Context { type PrefixType = Logger })(message: c.Expr[String]): c.Expr[Unit] =
+  def trace(c: LoggerContext)(message: c.Expr[String]): c.Expr[Unit] =
     log(c)(c.reify(Level.FINEST), message, None)
 
-  def traceT(c: Context { type PrefixType = Logger })(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
+  def traceT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
     log(c)(c.reify(Level.FINEST), message, Some(t))
 
-  private def log(c: Context { type PrefixType = Logger })(level: c.Expr[Level], message: c.Expr[String], t: Option[c.Expr[Throwable]]): c.Expr[Unit] = {
-    val underlying = c.reify(c.prefix.eval.underlying)
-    val effect = t.fold(c.reify(underlying.eval.log(level.eval, message.eval)))(t => c.reify(underlying.eval.log(level.eval, message.eval, t.eval)))
-    c.reify(if (underlying.eval.isLoggable(level.eval)) effect.eval)
+  private def log(c: LoggerContext)(level: c.Expr[Level], message: c.Expr[String], t: Option[c.Expr[Throwable]]): c.Expr[Unit] = {
+    val underlying = c.reify(c.prefix.splice.underlying)
+    val effect = t.fold(c.reify(underlying.splice.log(level.splice, message.splice)))(t => c.reify(underlying.splice.log(level.splice, message.splice, t.splice)))
+    c.reify(if (underlying.splice.isLoggable(level.splice)) effect.splice)
   }
 }

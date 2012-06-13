@@ -4,6 +4,8 @@ import com.typesafe.sbtscalariform.ScalariformPlugin._
 
 object Build extends Build {
 
+  val ScalaVersion = "2.10.0-M4"
+
   lazy val root = Project(
     "root",
     file("."),
@@ -17,6 +19,9 @@ object Build extends Build {
     "scalalogging",
     file("scalalogging"),
     settings = commonSettings ++ Seq(
+      libraryDependencies := Seq(
+        Dependencies.Compile.ScalaReflect
+      )
     )
   )
 
@@ -24,6 +29,7 @@ object Build extends Build {
     "scalalogging-test",
     file("scalalogging-test"),
     settings = commonSettings ++ Seq(
+      publishArtifact := false
     ),
     dependencies = Seq(scalalogging)
   )
@@ -31,8 +37,8 @@ object Build extends Build {
   def commonSettings = Defaults.defaultSettings ++ Seq(
 //    resolvers += Opts.resolver.sonatypeSnapshots,
     organization := "name.heikoseeberger",
-    scalaVersion := "2.10.0-M3",
-    scalacOptions ++= Seq("-unchecked", "-deprecation", "-optimize"),
+    scalaVersion := ScalaVersion,
+    scalacOptions ++= Seq("-unchecked", "-deprecation", "-optimize", "-target:jvm-1.6"),
     libraryDependencies ++= Seq(
 //        Dependencies.Test.Specs2
     ),
@@ -59,6 +65,7 @@ object Build extends Build {
   object Dependencies {
 
     object Compile {
+      val ScalaReflect = "org.scala-lang" % "scala-reflect" % ScalaVersion
     }
 
     object Test {
