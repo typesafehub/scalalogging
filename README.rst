@@ -35,7 +35,7 @@ The following example shows how to add a dependency to the latest **release** ve
 
 The following example shows how to add a dependency to the latest **snapshot** version of ScalaLogging to your sbt (0.12.0 or later) build definition::
 
-    resolvers += Opts.resolver.sonatypeReleases
+    resolvers += Opts.resolver.sonatypeSnapshots
 
     libraryDependencies += "name.heikoseeberger" %% "scalalogging" % "0.2.0-SNAPSHOT" cross CrossVersion.full
 
