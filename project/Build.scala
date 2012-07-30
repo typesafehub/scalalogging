@@ -1,6 +1,7 @@
+import com.typesafe.sbtscalariform.ScalariformPlugin._
 import sbt._
 import sbt.Keys._
-import com.typesafe.sbtscalariform.ScalariformPlugin._
+import sbtrelease.ReleasePlugin._
 
 object Build extends Build {
 
@@ -34,34 +35,37 @@ object Build extends Build {
     dependencies = Seq(scalalogging)
   )
 
-  def commonSettings = Defaults.defaultSettings ++ Seq(
-    organization := "name.heikoseeberger",
-    scalaVersion := ScalaVersion,
-    scalacOptions ++= Seq("-unchecked", "-deprecation", "-optimize", "-target:jvm-1.6"),
-    libraryDependencies ++= Seq(
-      Dependencies.Test.Specs2,
-      Dependencies.Test.Mockito,
-      Dependencies.Test.Hamcrest
-    ),
-    licenses := Seq("Apache 2.0 License" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
-    homepage := Some(url("https://github.com/hseeberger/scalalogging")),
-    publishTo <<= isSnapshot(isSnapshot => Some(if (isSnapshot) Opts.resolver.sonatypeSnapshots else Opts.resolver.sonatypeStaging)),
-    publishArtifact in Test := false,
-    pomIncludeRepository := (_ => false),
-    pomExtra :=
-      <scm>
-        <url>https://github.com/hseeberger/scalalogging</url>
-        <connection>scm:git:git://github.com/hseeberger/scalalogging.git</connection>
-      </scm>
-      <developers>
-        <developer>
-          <id>hseeberger</id>
-          <name>Heiko Seeberger</name>
-          <url>http://heikoseeberger.name</url>
-        </developer>
-      </developers>,
-    initialCommands in console := "import name.heikoseeberger.scalalogging._"
-  )
+  def commonSettings = Defaults.defaultSettings ++ 
+    scalariformSettings ++
+    releaseSettings ++
+    Seq(
+      organization := "name.heikoseeberger",
+      scalaVersion := ScalaVersion,
+      scalacOptions ++= Seq("-unchecked", "-deprecation", "-optimize", "-target:jvm-1.6"),
+      libraryDependencies ++= Seq(
+        Dependencies.Test.Specs2,
+        Dependencies.Test.Mockito,
+        Dependencies.Test.Hamcrest
+      ),
+      licenses := Seq("Apache 2.0 License" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
+      homepage := Some(url("https://github.com/hseeberger/scalalogging")),
+      publishTo <<= isSnapshot(isSnapshot => Some(if (isSnapshot) Opts.resolver.sonatypeSnapshots else Opts.resolver.sonatypeStaging)),
+      publishArtifact in Test := false,
+      pomIncludeRepository := (_ => false),
+      pomExtra :=
+        <scm>
+          <url>https://github.com/hseeberger/scalalogging</url>
+          <connection>scm:git:git://github.com/hseeberger/scalalogging.git</connection>
+        </scm>
+        <developers>
+          <developer>
+            <id>hseeberger</id>
+            <name>Heiko Seeberger</name>
+            <url>http://heikoseeberger.name</url>
+          </developer>
+        </developers>,
+      initialCommands in console := "import name.heikoseeberger.scalalogging._"
+    )
 
   object Dependencies {
 
