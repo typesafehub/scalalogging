@@ -1,10 +1,10 @@
 import sbt._
 import sbt.Keys._
-import com.typesafe.sbtscalariform.ScalariformPlugin._
+// import com.typesafe.sbtscalariform.ScalariformPlugin._
 
 object Build extends Build {
 
-  val ScalaVersion = "2.10.0-M4"
+  val ScalaVersion = "2.10.0-M6"
 
   lazy val root = Project(
     "root",
