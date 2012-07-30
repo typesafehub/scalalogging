@@ -62,38 +62,38 @@ private object LoggerMacros {
   type LoggerContext = Context { type PrefixType = Logger }
 
   def error(c: LoggerContext)(message: c.Expr[String]): c.Expr[Unit] =
-    log(c)(c.reify(Level.SEVERE), message, None)
+    log(c)(c.universe.reify(Level.SEVERE), message, None)
 
   def errorT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
-    log(c)(c.reify(Level.SEVERE), message, Some(t))
+    log(c)(c.universe.reify(Level.SEVERE), message, Some(t))
 
   def warn(c: LoggerContext)(message: c.Expr[String]): c.Expr[Unit] =
-    log(c)(c.reify(Level.WARNING), message, None)
+    log(c)(c.universe.reify(Level.WARNING), message, None)
 
   def warnT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
-    log(c)(c.reify(Level.WARNING), message, Some(t))
+    log(c)(c.universe.reify(Level.WARNING), message, Some(t))
 
   def info(c: LoggerContext)(message: c.Expr[String]): c.Expr[Unit] =
-    log(c)(c.reify(Level.INFO), message, None)
+    log(c)(c.universe.reify(Level.INFO), message, None)
 
   def infoT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
-    log(c)(c.reify(Level.INFO), message, Some(t))
+    log(c)(c.universe.reify(Level.INFO), message, Some(t))
 
   def debug(c: LoggerContext)(message: c.Expr[String]): c.Expr[Unit] =
-    log(c)(c.reify(Level.FINE), message, None)
+    log(c)(c.universe.reify(Level.FINE), message, None)
 
   def debugT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
-    log(c)(c.reify(Level.FINE), message, Some(t))
+    log(c)(c.universe.reify(Level.FINE), message, Some(t))
 
   def trace(c: LoggerContext)(message: c.Expr[String]): c.Expr[Unit] =
-    log(c)(c.reify(Level.FINEST), message, None)
+    log(c)(c.universe.reify(Level.FINEST), message, None)
 
   def traceT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
-    log(c)(c.reify(Level.FINEST), message, Some(t))
+    log(c)(c.universe.reify(Level.FINEST), message, Some(t))
 
   private def log(c: LoggerContext)(level: c.Expr[Level], message: c.Expr[String], t: Option[c.Expr[Throwable]]): c.Expr[Unit] = {
-    val underlying = c.reify(c.prefix.splice.underlying)
-    val effect = t.fold(c.reify(underlying.splice.log(level.splice, message.splice)))(t => c.reify(underlying.splice.log(level.splice, message.splice, t.splice)))
-    c.reify(if (underlying.splice.isLoggable(level.splice)) effect.splice)
+    val underlying = c.universe.reify(c.prefix.splice.underlying)
+    val effect = t.fold(c.universe.reify(underlying.splice.log(level.splice, message.splice)))(t => c.universe.reify(underlying.splice.log(level.splice, message.splice, t.splice)))
+    c.universe.reify(if (underlying.splice.isLoggable(level.splice)) effect.splice)
   }
 }
