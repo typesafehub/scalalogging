@@ -16,25 +16,26 @@
 
 package name.heikoseeberger.scalalogging
 
-import java.util.logging.{ Level, Logger => JLogger }
 import language.experimental.macros
+import org.slf4j.{ Logger => Underlying }
 import scala.reflect.makro.Context
 
 object Logger {
 
   /**
-   * Create a [[name.heikoseeberger.scalalogging.Logger]] wrapping the given underlying ''java.util.logger.Logger''.
+   * Create a [[name.heikoseeberger.scalalogging.Logger]] wrapping the given underlying ''org.slf4j.Logger''.
    */
-  def apply(underlying: JLogger): Logger = new Logger(underlying)
+  def apply(underlying: Underlying): Logger =
+    new Logger(underlying)
 }
 
 /**
- * Convenient and performant wrapper around the given underlying ''java.util.logger.Logger''.
+ * Convenient and performant wrapper around the given underlying ''org.slf4j.Logger''.
  *
  * Convenient, because it is not necessary to write the check-enabled idiom (check whether the a particular log level is enabled) manually.
  * Performant, because by using macros the log methods are expanded inline to the check-enabled idiom.
  */
-final class Logger private (val underlying: JLogger) {
+final class Logger private (val underlying: Underlying) {
 
   def error(message: String): Unit = macro LoggerMacros.error
 
@@ -61,43 +62,43 @@ private object LoggerMacros {
 
   type LoggerContext = Context { type PrefixType = Logger }
 
-  def error(c: LoggerContext)(message: c.Expr[String]): c.Expr[Unit] =
-    log(c)(c.universe.reify(Level.SEVERE), message, None)
+  def error(c: LoggerContext)(message: c.Expr[String]) = c.universe.reify(
+    if (c.prefix.splice.underlying.isErrorEnabled) c.prefix.splice.underlying.error(message.splice)
+  )
 
-  def errorT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
-    log(c)(c.universe.reify(Level.SEVERE), message, Some(t))
+  def errorT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) = c.universe.reify(
+    if (c.prefix.splice.underlying.isErrorEnabled) c.prefix.splice.underlying.error(message.splice, t)
+  )
 
-  def warn(c: LoggerContext)(message: c.Expr[String]): c.Expr[Unit] =
-    log(c)(c.universe.reify(Level.WARNING), message, None)
+  def warn(c: LoggerContext)(message: c.Expr[String]) = c.universe.reify(
+    if (c.prefix.splice.underlying.isWarnEnabled) c.prefix.splice.underlying.warn(message.splice)
+  )
 
-  def warnT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
-    log(c)(c.universe.reify(Level.WARNING), message, Some(t))
+  def warnT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) = c.universe.reify(
+    if (c.prefix.splice.underlying.isWarnEnabled) c.prefix.splice.underlying.warn(message.splice, t)
+  )
 
-  def info(c: LoggerContext)(message: c.Expr[String]): c.Expr[Unit] =
-    log(c)(c.universe.reify(Level.INFO), message, None)
+  def info(c: LoggerContext)(message: c.Expr[String]) = c.universe.reify(
+    if (c.prefix.splice.underlying.isInfoEnabled) c.prefix.splice.underlying.info(message.splice)
+  )
 
-  def infoT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
-    log(c)(c.universe.reify(Level.INFO), message, Some(t))
+  def infoT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) = c.universe.reify(
+    if (c.prefix.splice.underlying.isInfoEnabled) c.prefix.splice.underlying.info(message.splice, t)
+  )
 
-  def debug(c: LoggerContext)(message: c.Expr[String]): c.Expr[Unit] =
-    log(c)(c.universe.reify(Level.FINE), message, None)
+  def debug(c: LoggerContext)(message: c.Expr[String]) = c.universe.reify(
+    if (c.prefix.splice.underlying.isDebugEnabled) c.prefix.splice.underlying.debug(message.splice)
+  )
 
-  def debugT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
-    log(c)(c.universe.reify(Level.FINE), message, Some(t))
+  def debugT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) = c.universe.reify(
+    if (c.prefix.splice.underlying.isDebugEnabled) c.prefix.splice.underlying.debug(message.splice, t)
+  )
 
-  def trace(c: LoggerContext)(message: c.Expr[String]): c.Expr[Unit] =
-    log(c)(c.universe.reify(Level.FINEST), message, None)
+  def trace(c: LoggerContext)(message: c.Expr[String]) = c.universe.reify(
+    if (c.prefix.splice.underlying.isTraceEnabled) c.prefix.splice.underlying.trace(message.splice)
+  )
 
-  def traceT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]): c.Expr[Unit] =
-    log(c)(c.universe.reify(Level.FINEST), message, Some(t))
-
-  private def log(c: LoggerContext)(level: c.Expr[Level], message: c.Expr[String], t: Option[c.Expr[Throwable]]): c.Expr[Unit] = {
-    import c.universe.reify
-    val underlying = reify(c.prefix.splice.underlying)
-    def logMessage = reify(underlying.splice.log(level.splice, message.splice))
-    val logMessageAndThrowable =
-      (t: c.Expr[Throwable]) => reify(underlying.splice.log(level.splice, message.splice, t.splice))
-    val effect = t.fold(logMessage)(logMessageAndThrowable)
-    reify(if (underlying.splice.isLoggable(level.splice)) effect.splice)
-  }
+  def traceT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) = c.universe.reify(
+    if (c.prefix.splice.underlying.isTraceEnabled) c.prefix.splice.underlying.trace(message.splice, t)
+  )
 }

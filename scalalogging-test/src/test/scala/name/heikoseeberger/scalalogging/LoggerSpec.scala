@@ -16,7 +16,7 @@
 
 package name.heikoseeberger.scalalogging
 
-import java.util.logging.{ Level, Logger => JLogger }
+import org.slf4j.{ Logger => Underlying }
 import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
 
@@ -24,23 +24,23 @@ object LoggerSpec extends Specification with Mockito {
 
   private val Message = "Some log message!"
 
-  "Calling trace" should {
-    "not result in calling JLogger.log(Level.FINEST, ...)" in {
-      val jLogger = mock[JLogger]
-      jLogger.isLoggable(Level.FINEST) returns false
-      val logger = Logger(jLogger)
+  "Calling a not-enabled logging method" should {
+    "result in the underlying method not being called" in {
+      val underlying = mock[Underlying]
+      underlying.isTraceEnabled returns false
+      val logger = Logger(underlying)
       logger.trace(Message)
-      there was no(jLogger).log(Level.FINEST, Message)
+      there was no(underlying).trace(Message)
     }
   }
 
-  "Calling error" should {
-    "result in calling JLogger.log(Level.SEVERE, ...)" in {
-      val jLogger = mock[JLogger]
-      jLogger.isLoggable(Level.SEVERE) returns true
-      val logger = Logger(jLogger)
+  "Calling an enabled logging method" should {
+    "result in the underlying method being called" in {
+      val underlying = mock[Underlying]
+      underlying.isErrorEnabled returns true
+      val logger = Logger(underlying)
       logger.error(Message)
-      there was one(jLogger).log(Level.SEVERE, Message)
+      there was one(underlying).error(Message)
     }
   }
 }

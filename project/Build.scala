@@ -21,7 +21,8 @@ object Build extends Build {
     file("scalalogging"),
     settings = commonSettings ++ Seq(
       libraryDependencies := Seq(
-        Dependencies.Compile.ScalaReflect
+        Dependencies.Compile.ScalaReflect,
+        Dependencies.Compile.Slf4j
       )
     )
   )
@@ -71,6 +72,7 @@ object Build extends Build {
 
     object Compile {
       val ScalaReflect = "org.scala-lang" % "scala-reflect" % ScalaVersion
+      val Slf4j = "org.slf4j" % "slf4j-api" % "1.6.6"
     }
 
     object Test {

@@ -16,7 +16,7 @@
 
 package name.heikoseeberger.scalalogging
 
-import java.util.logging.{ Logger => JLogger }
+import org.slf4j.LoggerFactory
 
 /**
  * Adds the lazy val logger of type [[$Logger]] to the class into which this trait is mixed.
@@ -26,7 +26,9 @@ import java.util.logging.{ Logger => JLogger }
  * @define Logger name.heikoseeberger.scalalogging.Logger
  */
 trait Logging {
-  protected lazy val logger = Logger(JLogger.getLogger(getClass.getName))
+
+  protected lazy val logger: Logger =
+    Logger(LoggerFactory getLogger getClass.getName)
 }
 
 /**
@@ -37,5 +39,7 @@ trait Logging {
  * @define Logger name.heikoseeberger.scalalogging.Logger
  */
 trait StrictLogging {
-  protected val logger = Logger(JLogger.getLogger(getClass.getName))
+
+  protected val logger: Logger =
+    Logger(LoggerFactory getLogger getClass.getName)
 }
