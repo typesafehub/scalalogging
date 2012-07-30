@@ -16,15 +16,31 @@
 
 package name.heikoseeberger.scalalogging
 
-import java.util.logging.{ Logger => JLogger }
+import java.util.logging.{ Level, Logger => JLogger }
+import org.specs2.mock.Mockito
+import org.specs2.mutable.Specification
 
-// TODO Change to specs2 as soon as available!
-object LoggerSpec {
+object LoggerSpec extends Specification with Mockito {
 
-  def main(args: Array[String]): Unit = {
-    val logger = Logger(JLogger.getLogger("test"))
-    logger.info(message)
+  private val Message = "Some log message!"
+
+  "Calling trace" should {
+    "not result in calling JLogger.log(Level.FINEST, ...)" in {
+      val jLogger = mock[JLogger]
+      jLogger.isLoggable(Level.FINEST) returns false
+      val logger = Logger(jLogger)
+      logger.trace(Message)
+      there was no(jLogger).log(Level.FINEST, Message)
+    }
   }
 
-  private def message = "Some log message!"
+  "Calling error" should {
+    "result in calling JLogger.log(Level.SEVERE, ...)" in {
+      val jLogger = mock[JLogger]
+      jLogger.isLoggable(Level.SEVERE) returns true
+      val logger = Logger(jLogger)
+      logger.error(Message)
+      there was one(jLogger).log(Level.SEVERE, Message)
+    }
+  }
 }
