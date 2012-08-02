@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Heiko Seeberger
+ * Copyright 2012 Typesafe Inc. <http://www.typesafe.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package name.heikoseeberger.scalalogging
+package com.typesafe.scalalogging
 
 import language.experimental.macros
 import org.slf4j.{ Logger => Underlying }
@@ -23,7 +23,7 @@ import scala.reflect.makro.Context
 object Logger {
 
   /**
-   * Create a [[name.heikoseeberger.scalalogging.Logger]] wrapping the given underlying ''org.slf4j.Logger''.
+   * Create a [[com.typesafe.scalalogging.Logger]] wrapping the given underlying ''org.slf4j.Logger''.
    */
   def apply(underlying: Underlying): Logger =
     new Logger(underlying)
