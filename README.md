@@ -36,17 +36,17 @@ Prerequisites
 Using ScalaLogging
 ------------------
 
-ScalaLogging is published to the Sonatype OSS snapshot and release repositories. As the Sonatype OSS release repository is mirrored to Maven Central, you can use releases without adding custom resolvers to your sbt build definition or custom repositories to your Maven POM. The group id (organization) is `com.typesafe` and the artifact id (name) is `scalalogging-slf4j`.
+ScalaLogging is published to the Sonatype OSS snapshot and release repositories. As the Sonatype OSS release repository is mirrored to Maven Central (with a certain delay), you can use releases without adding custom resolvers to your sbt build definition or custom repositories to your Maven POM. The group id (organization) is `com.typesafe` and the artifact id (name) is `scalalogging-slf4j`.
 
-<!--The following example shows how to add a dependency to the latest **release** version of ScalaLogging to your sbt (0.12.0 or later) build definition::
+The following example shows how to add a dependency to the latest **release** version of ScalaLogging to your sbt (0.12.0 or later) build definition::
 
-  libraryDependencies += "name.heikoseeberger" %% "scalalogging" % "0.1.0" cross CrossVersion.full
--->
+  libraryDependencies += "com.typesafe" %% "scalalogging-slf4j" % "0.2.0" cross CrossVersion.full
+
 The following example shows how to add a dependency to the latest **snapshot** version of ScalaLogging to your sbt (0.12.0 or later) build definition:
 
     resolvers += Opts.resolver.sonatypeSnapshots
 
-    libraryDependencies += "com.typesafe" %% "scalalogging-slf4j" % "0.2.0-SNAPSHOT" cross CrossVersion.full
+    libraryDependencies += "com.typesafe" %% "scalalogging-slf4j" % "0.3.0-SNAPSHOT" cross CrossVersion.full
 
 
 Contribution policy
