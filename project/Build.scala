@@ -5,7 +5,7 @@ import sbtrelease.ReleasePlugin._
 
 object Build extends Build {
 
-  val ScalaVersion = "2.10.0-M6"
+  val ScalaVersion = "2.10.0-M7"
 
   lazy val root = Project(
     "scalalogging",
@@ -77,7 +77,7 @@ object Build extends Build {
     }
 
     object Test {
-      val Specs2 = "org.specs2" %% "specs2" % "1.11" % "test" cross CrossVersion.full
+      val Specs2 = "org.specs2" %% "specs2" % "1.12.1.1" % "test" cross CrossVersion.full
 //      val ScalaCheck = "org.scalacheck" %% "scalacheck" % "1.9" % "test"
       val Mockito = "org.mockito" % "mockito-all" % "1.9.0" % "test"
       val Hamcrest = "org.hamcrest" % "hamcrest-all" % "1.1" % "test"

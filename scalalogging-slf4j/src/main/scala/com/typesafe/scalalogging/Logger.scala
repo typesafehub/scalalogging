@@ -18,7 +18,7 @@ package com.typesafe.scalalogging
 
 import language.experimental.macros
 import org.slf4j.{ Logger => Underlying }
-import scala.reflect.makro.Context
+import scala.reflect.macros.Context
 
 object Logger {
 
