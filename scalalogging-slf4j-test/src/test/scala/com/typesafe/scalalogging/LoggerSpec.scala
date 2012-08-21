@@ -23,6 +23,7 @@ import org.specs2.mutable.Specification
 object LoggerSpec extends Specification with Mockito {
 
   private val Message = "Some log message!"
+  private val Exception = new Exception("Some exception")
 
   "Calling a not-enabled logging method" should {
     "result in the underlying method not being called" in {
@@ -37,6 +38,8 @@ object LoggerSpec extends Specification with Mockito {
       there was no(underlying).trace(Message, "p1", "p2")
       logger.trace(Message, Array("p1", "p2", "p3"))
       there was no(underlying).trace(Message, Array("p1", "p2", "p3"))
+      logger.trace(Message, Exception)
+      there was no(underlying).trace(Message, Exception)
     }
   }
 
@@ -53,6 +56,8 @@ object LoggerSpec extends Specification with Mockito {
       there was one(underlying).error(Message, "p1", "p2")
       logger.error(Message, Array("p1", "p2", "p3"))
       there was one(underlying).error(Message, Array("p1", "p2", "p3"))
+      logger.error(Message, Exception)
+      there was one(underlying).error(Message, Exception)
     }
   }
 
@@ -69,6 +74,8 @@ object LoggerSpec extends Specification with Mockito {
       there was one(underlying).warn(Message, "p1", "p2")
       logger.warn(Message, Array("p1", "p2", "p3"))
       there was one(underlying).warn(Message, Array("p1", "p2", "p3"))
+      logger.warn(Message, Exception)
+      there was one(underlying).warn(Message, Exception)
     }
   }
 
@@ -85,6 +92,8 @@ object LoggerSpec extends Specification with Mockito {
       there was one(underlying).info(Message, "p1", "p2")
       logger.info(Message, Array("p1", "p2", "p3"))
       there was one(underlying).info(Message, Array("p1", "p2", "p3"))
+      logger.info(Message, Exception)
+      there was one(underlying).info(Message, Exception)
     }
   }
 
@@ -101,6 +110,8 @@ object LoggerSpec extends Specification with Mockito {
       there was one(underlying).debug(Message, "p1", "p2")
       logger.debug(Message, Array("p1", "p2", "p3"))
       there was one(underlying).debug(Message, Array("p1", "p2", "p3"))
+      logger.debug(Message, Exception)
+      there was one(underlying).debug(Message, Exception)
     }
   }
 
@@ -117,6 +128,8 @@ object LoggerSpec extends Specification with Mockito {
       there was one(underlying).trace(Message, "p1", "p2")
       logger.trace(Message, Array("p1", "p2", "p3"))
       there was one(underlying).trace(Message, Array("p1", "p2", "p3"))
+      logger.trace(Message, Exception)
+      there was one(underlying).trace(Message, Exception)
     }
   }
 }
