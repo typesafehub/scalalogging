@@ -113,7 +113,7 @@ private object LoggerMacros {
   )
 
   def errorT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isErrorEnabled) c.prefix.splice.underlying.error(message.splice, t)
+    if (c.prefix.splice.underlying.isErrorEnabled) c.prefix.splice.underlying.error(message.splice, t.splice)
   )
 
   def warn(c: LoggerContext)(message: c.Expr[String]) = c.universe.reify(
@@ -136,7 +136,7 @@ private object LoggerMacros {
   )
 
   def warnT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isWarnEnabled) c.prefix.splice.underlying.warn(message.splice, t)
+    if (c.prefix.splice.underlying.isWarnEnabled) c.prefix.splice.underlying.warn(message.splice, t.splice)
   )
 
   def info(c: LoggerContext)(message: c.Expr[String]) = c.universe.reify(
@@ -159,7 +159,7 @@ private object LoggerMacros {
   )
 
   def infoT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isInfoEnabled) c.prefix.splice.underlying.info(message.splice, t)
+    if (c.prefix.splice.underlying.isInfoEnabled) c.prefix.splice.underlying.info(message.splice, t.splice)
   )
 
   def debug(c: LoggerContext)(message: c.Expr[String]) = c.universe.reify(
@@ -182,7 +182,7 @@ private object LoggerMacros {
   )
 
   def debugT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isDebugEnabled) c.prefix.splice.underlying.debug(message.splice, t)
+    if (c.prefix.splice.underlying.isDebugEnabled) c.prefix.splice.underlying.debug(message.splice, t.splice)
   )
 
   def trace(c: LoggerContext)(message: c.Expr[String]) = c.universe.reify(
@@ -205,6 +205,6 @@ private object LoggerMacros {
   )
 
   def traceT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isTraceEnabled) c.prefix.splice.underlying.trace(message.splice, t)
+    if (c.prefix.splice.underlying.isTraceEnabled) c.prefix.splice.underlying.trace(message.splice, t.splice)
   )
 }
