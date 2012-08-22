@@ -3,7 +3,7 @@ ScalaLogging
 
 Scala logging library wrapping <a href="http://www.slf4j.org/">SLF4J</a> in a convenient and performant fashion.
 
-**Important change**: From version 0.2.0-SNAPSHOT on ScalaLogging is published under the group id `com.typesafe`. Also, the artifact id has changed to `scalalogging-slf4j`.
+**Important change**: From version 0.2.0 on ScalaLogging is published under the group id `com.typesafe`. Also, the artifact id has changed to `scalalogging-slf4j`.
 
 In principle the call of log messages should be avoided if the given log level is not enabled. Hence we should write the following code to log at the `debug` level:
 
@@ -29,8 +29,7 @@ In addition ScalaLogging offers the trait `Logging` which conveniently provides 
 Prerequisites
 -------------
 
-* Scala 2.10.0-M6 (for latest release version 0.2.0)
-* Scala 2.10.0-M7 (for latest snapshot version 0.3.0-SNAPSHOT)
+* Scala 2.10.0-M7
 * SLF4J 1.6.6
 
 
@@ -41,13 +40,13 @@ ScalaLogging is published to the Sonatype OSS snapshot and release repositories.
 
 The following example shows how to add a dependency to the latest **release** version of ScalaLogging to your sbt (0.12.0 or later) build definition::
 
-  libraryDependencies += "com.typesafe" %% "scalalogging-slf4j" % "0.2.0" cross CrossVersion.full
+  libraryDependencies += "com.typesafe" %% "scalalogging-slf4j" % "0.3.0" cross CrossVersion.full
 
 The following example shows how to add a dependency to the latest **snapshot** version of ScalaLogging to your sbt (0.12.0 or later) build definition:
 
     resolvers += Opts.resolver.sonatypeSnapshots
 
-    libraryDependencies += "com.typesafe" %% "scalalogging-slf4j" % "0.3.0-SNAPSHOT" cross CrossVersion.full
+    libraryDependencies += "com.typesafe" %% "scalalogging-slf4j" % "0.4.0-SNAPSHOT" cross CrossVersion.full
 
 
 Contribution policy
