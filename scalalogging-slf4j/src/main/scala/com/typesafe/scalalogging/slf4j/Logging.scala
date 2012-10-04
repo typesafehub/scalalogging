@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.typesafe.scalalogging
+package com.typesafe.scalalogging.slf4j
 
 import org.slf4j.LoggerFactory
 

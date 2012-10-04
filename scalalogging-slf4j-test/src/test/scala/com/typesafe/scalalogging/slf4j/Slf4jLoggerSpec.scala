@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.typesafe.scalalogging
+package com.typesafe.scalalogging.slf4j
 
 import org.slf4j.{ Logger => Underlying }
 import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
 
-object LoggerSpec extends Specification with Mockito {
+object Slf4jLoggerSpec extends Specification with Mockito {
 
   private val Message = "Some log message!"
   private val Exception = new Exception("Some exception")

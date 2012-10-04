@@ -1,6 +1,6 @@
-import com.typesafe.sbtscalariform.ScalariformPlugin._
 import sbt._
 import sbt.Keys._
+import com.typesafe.sbt.SbtScalariform._
 import sbtrelease.ReleasePlugin._
 
 object Build extends Build {
@@ -13,7 +13,12 @@ object Build extends Build {
     settings = commonSettings ++ Seq(
       publishArtifact := false
     ),
-    aggregate = Seq(scalaloggingSlf4j, scalaloggingSlf4jTest)
+    aggregate = Seq(
+      scalaloggingSlf4j,
+      scalaloggingSlf4jTest,
+      scalaloggingLog4j,
+      scalaloggingLog4jTest
+    )
   )
 
   lazy val scalaloggingSlf4j = Project(
@@ -22,7 +27,7 @@ object Build extends Build {
     settings = commonSettings ++ Seq(
       libraryDependencies := Seq(
         Dependencies.Compile.ScalaReflect,
-        Dependencies.Compile.Slf4j
+        Dependencies.Compile.Slf4jApi
       )
     )
   )
@@ -36,6 +41,26 @@ object Build extends Build {
     dependencies = Seq(scalaloggingSlf4j)
   )
 
+  lazy val scalaloggingLog4j = Project(
+    "scalalogging-log4j",
+    file("scalalogging-log4j"),
+    settings = commonSettings ++ Seq(
+      libraryDependencies := Seq(
+        Dependencies.Compile.ScalaReflect,
+        Dependencies.Compile.Log4jApi
+      )
+    )
+  )
+
+  lazy val scalaloggingLog4jTest = Project(
+    "scalalogging-log4j-test",
+    file("scalalogging-log4j-test"),
+    settings = commonSettings ++ Seq(
+      publishArtifact := false
+    ),
+    dependencies = Seq(scalaloggingLog4j)
+  )
+
   def commonSettings = Defaults.defaultSettings ++ 
     scalariformSettings ++
     releaseSettings ++
@@ -46,6 +71,7 @@ object Build extends Build {
       scalacOptions ++= Seq("-unchecked", "-deprecation", "-optimize", "-target:jvm-1.6"),
       libraryDependencies ++= Seq(
         Dependencies.Test.Specs2,
+        Dependencies.Test.ScalaCheck,
         Dependencies.Test.Mockito,
         Dependencies.Test.Hamcrest
       ),
@@ -73,12 +99,13 @@ object Build extends Build {
 
     object Compile {
       val ScalaReflect = "org.scala-lang" % "scala-reflect" % ScalaVersion
-      val Slf4j = "org.slf4j" % "slf4j-api" % "1.6.6"
+      val Slf4jApi = "org.slf4j" % "slf4j-api" % "1.6.6"
+      val Log4jApi = "org.apache.logging.log4j" % "log4j-api" % "2.0-beta1"
     }
 
     object Test {
       val Specs2 = "org.specs2" %% "specs2" % "1.12.1.1" % "test" cross CrossVersion.full
-//      val ScalaCheck = "org.scalacheck" %% "scalacheck" % "1.9" % "test"
+      val ScalaCheck = "org.scalacheck" %% "scalacheck" % "1.10.0" % "test" cross CrossVersion.full
       val Mockito = "org.mockito" % "mockito-all" % "1.9.0" % "test"
       val Hamcrest = "org.hamcrest" % "hamcrest-all" % "1.1" % "test"
     }
