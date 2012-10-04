@@ -22,7 +22,7 @@ import org.slf4j.{ Logger => Underlying, Marker }
 object Logger {
 
   /**
-   * Create a [[com.typesafe.scalalogging.Logger]] wrapping the given underlying ''org.slf4j.Logger''.
+   * Create a [[com.typesafe.scalalogging.slf4j.Logger]] wrapping the given underlying ''org.slf4j.Logger''.
    */
   def apply(underlying: Underlying): Logger =
     new Logger(underlying)

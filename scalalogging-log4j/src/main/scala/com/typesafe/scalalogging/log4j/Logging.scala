@@ -14,34 +14,34 @@
  * limitations under the License.
  */
 
-package com.typesafe.scalalogging.slf4j
+package com.typesafe.scalalogging.log4j
 
-import org.slf4j.LoggerFactory
+import org.apache.logging.log4j.LogManager
 
 /**
  * Adds the lazy val logger of type [[$Logger]] to the class into which this trait is mixed.
  *
  * If you need a not-lazy [[$Logger]], which would probably be a special case,
- * use [[com.typesafe.scalalogging.slf4j.StrictLogging]].
+ * use [[com.typesafe.scalalogging.log4j.StrictLogging]].
  *
- * @define Logger com.typesafe.scalalogging.slf4j.Logger
+ * @define Logger com.typesafe.scalalogging.log4j.Logger
  */
 trait Logging {
 
   protected lazy val logger: Logger =
-    Logger(LoggerFactory getLogger getClass.getName)
+    Logger(LogManager getLogger getClass.getName)
 }
 
 /**
  * Adds the not-lazy val logger of type [[$Logger]] to the class into which this trait is mixed.
  *
  * If you need a lazy [[$Logger]], which would probably be preferrable,
- * use [[com.typesafe.scalalogging.slf4j.Logging]].
+ * use [[com.typesafe.scalalogging.log4j.Logging]].
  *
- * @define Logger com.typesafe.scalalogging.slf4j.Logger
+ * @define Logger com.typesafe.scalalogging.log4j.Logger
  */
 trait StrictLogging {
 
   protected val logger: Logger =
-    Logger(LoggerFactory getLogger getClass.getName)
+    Logger(LogManager getLogger getClass.getName)
 }
