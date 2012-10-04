@@ -17,7 +17,7 @@
 package com.typesafe.scalalogging.slf4j
 
 import language.experimental.macros
-import org.slf4j.{ Logger => Underlying }
+import org.slf4j.{ Logger => Underlying, Marker }
 
 object Logger {
 
@@ -39,62 +39,71 @@ final class Logger private (val underlying: Underlying) {
 
   // Error
 
-  def error(message: String): Unit = macro LoggerMacros.error
+  def error(message: String): Unit = macro LoggerMacros.errorMessage
 
-  def error(message: String, param: AnyRef): Unit = macro LoggerMacros.errorP
+  def error(message: String, params: AnyRef*): Unit = macro LoggerMacros.errorMessageParams
 
-  def error(message: String, param1: AnyRef, param2: AnyRef): Unit = macro LoggerMacros.errorP2
+  def error(message: String, t: Throwable): Unit = macro LoggerMacros.errorMessageThrowable
 
-  def error(message: String, params: Array[AnyRef]): Unit = macro LoggerMacros.errorPs
+  def error(marker: Marker, message: String): Unit = macro LoggerMacros.errorMarkerMessage
 
-  def error(message: String, t: Throwable): Unit = macro LoggerMacros.errorT
+  def error(marker: Marker, message: String, params: AnyRef*): Unit = macro LoggerMacros.errorMarkerMessageParams
+
+  def error(marker: Marker, message: String, t: Throwable): Unit = macro LoggerMacros.errorMarkerMessageThrowable
 
   // Warn
 
-  def warn(message: String): Unit = macro LoggerMacros.warn
+  def warn(message: String): Unit = macro LoggerMacros.warnMessage
 
-  def warn(message: String, param: AnyRef): Unit = macro LoggerMacros.warnP
+  def warn(message: String, params: AnyRef*): Unit = macro LoggerMacros.warnMessageParams
 
-  def warn(message: String, param1: AnyRef, param2: AnyRef): Unit = macro LoggerMacros.warnP2
+  def warn(message: String, t: Throwable): Unit = macro LoggerMacros.warnMessageThrowable
 
-  def warn(message: String, params: Array[AnyRef]): Unit = macro LoggerMacros.warnPs
+  def warn(marker: Marker, message: String): Unit = macro LoggerMacros.warnMarkerMessage
 
-  def warn(message: String, t: Throwable): Unit = macro LoggerMacros.warnT
+  def warn(marker: Marker, message: String, params: AnyRef*): Unit = macro LoggerMacros.warnMarkerMessageParams
+
+  def warn(marker: Marker, message: String, t: Throwable): Unit = macro LoggerMacros.warnMarkerMessageThrowable
 
   // Info
 
-  def info(message: String): Unit = macro LoggerMacros.info
+  def info(message: String): Unit = macro LoggerMacros.infoMessage
 
-  def info(message: String, param: AnyRef): Unit = macro LoggerMacros.infoP
+  def info(message: String, params: AnyRef*): Unit = macro LoggerMacros.infoMessageParams
 
-  def info(message: String, param1: AnyRef, param2: AnyRef): Unit = macro LoggerMacros.infoP2
+  def info(message: String, t: Throwable): Unit = macro LoggerMacros.infoMessageThrowable
 
-  def info(message: String, params: Array[AnyRef]): Unit = macro LoggerMacros.infoPs
+  def info(marker: Marker, message: String): Unit = macro LoggerMacros.infoMarkerMessage
 
-  def info(message: String, t: Throwable): Unit = macro LoggerMacros.infoT
+  def info(marker: Marker, message: String, params: AnyRef*): Unit = macro LoggerMacros.infoMarkerMessageParams
+
+  def info(marker: Marker, message: String, t: Throwable): Unit = macro LoggerMacros.infoMarkerMessageThrowable
 
   // Debug
 
-  def debug(message: String): Unit = macro LoggerMacros.debug
+  def debug(message: String): Unit = macro LoggerMacros.debugMessage
 
-  def debug(message: String, param: AnyRef): Unit = macro LoggerMacros.debugP
+  def debug(message: String, params: AnyRef*): Unit = macro LoggerMacros.debugMessageParams
 
-  def debug(message: String, param1: AnyRef, param2: AnyRef): Unit = macro LoggerMacros.debugP2
+  def debug(message: String, t: Throwable): Unit = macro LoggerMacros.debugMessageThrowable
 
-  def debug(message: String, params: Array[AnyRef]): Unit = macro LoggerMacros.debugPs
+  def debug(marker: Marker, message: String): Unit = macro LoggerMacros.debugMarkerMessage
 
-  def debug(message: String, t: Throwable): Unit = macro LoggerMacros.debugT
+  def debug(marker: Marker, message: String, params: AnyRef*): Unit = macro LoggerMacros.debugMarkerMessageParams
+
+  def debug(marker: Marker, message: String, t: Throwable): Unit = macro LoggerMacros.debugMarkerMessageThrowable
 
   // Trace
 
-  def trace(message: String): Unit = macro LoggerMacros.trace
+  def trace(message: String): Unit = macro LoggerMacros.traceMessage
 
-  def trace(message: String, param: AnyRef): Unit = macro LoggerMacros.traceP
+  def trace(message: String, params: AnyRef*): Unit = macro LoggerMacros.traceMessageParams
 
-  def trace(message: String, param1: AnyRef, param2: AnyRef): Unit = macro LoggerMacros.traceP2
+  def trace(message: String, t: Throwable): Unit = macro LoggerMacros.traceMessageThrowable
 
-  def trace(message: String, params: Array[AnyRef]): Unit = macro LoggerMacros.tracePs
+  def trace(marker: Marker, message: String): Unit = macro LoggerMacros.traceMarkerMessage
 
-  def trace(message: String, t: Throwable): Unit = macro LoggerMacros.traceT
+  def trace(marker: Marker, message: String, params: AnyRef*): Unit = macro LoggerMacros.traceMarkerMessageParams
+
+  def trace(marker: Marker, message: String, t: Throwable): Unit = macro LoggerMacros.traceMarkerMessageThrowable
 }
-

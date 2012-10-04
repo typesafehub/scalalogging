@@ -378,5 +378,4 @@ private object LoggerMacros {
     )
     c.Expr(If(isEnabled, log, Literal(Constant(()))))
   }
-
 }

@@ -99,7 +99,7 @@ object Build extends Build {
 
     object Compile {
       val ScalaReflect = "org.scala-lang" % "scala-reflect" % ScalaVersion
-      val Slf4jApi = "org.slf4j" % "slf4j-api" % "1.6.6"
+      val Slf4jApi = "org.slf4j" % "slf4j-api" % "1.7.1"
       val Log4jApi = "org.apache.logging.log4j" % "log4j-api" % "2.0-beta1"
     }
 

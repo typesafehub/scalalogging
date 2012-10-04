@@ -16,6 +16,7 @@
 
 package com.typesafe.scalalogging.slf4j
 
+import org.slf4j.Marker
 import scala.reflect.macros.Context
 
 object LoggerMacros {
@@ -24,126 +25,181 @@ object LoggerMacros {
 
   // Errror
 
-  def error(c: LoggerContext)(message: c.Expr[String]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isErrorEnabled) c.prefix.splice.underlying.error(message.splice)
-  )
+  def errorMessage(c: LoggerContext)(message: c.Expr[String]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isErrorEnabled)
+        c.prefix.splice.underlying.error(message.splice)
+    )
 
-  def errorP(c: LoggerContext)(message: c.Expr[String], param: c.Expr[AnyRef]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isErrorEnabled)
-      c.prefix.splice.underlying.error(message.splice, param.splice)
-  )
+  def errorMessageParams(c: LoggerContext)(message: c.Expr[String], params: c.Expr[AnyRef]*) =
+    logParams(c)(message, params, None)("error")
 
-  def errorP2(c: LoggerContext)(message: c.Expr[String], param1: c.Expr[AnyRef], param2: c.Expr[AnyRef]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isErrorEnabled)
-      c.prefix.splice.underlying.error(message.splice, param1.splice, param2.splice)
-  )
+  def errorMessageThrowable(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isErrorEnabled)
+        c.prefix.splice.underlying.error(message.splice, t.splice)
+    )
 
-  def errorPs(c: LoggerContext)(message: c.Expr[String], params: c.Expr[Array[AnyRef]]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isErrorEnabled)
-      c.prefix.splice.underlying.error(message.splice, params.splice)
-  )
+  def errorMarkerMessage(c: LoggerContext)(marker: c.Expr[Marker], message: c.Expr[String]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isErrorEnabled)
+        c.prefix.splice.underlying.error(marker.splice, message.splice)
+    )
 
-  def errorT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isErrorEnabled) c.prefix.splice.underlying.error(message.splice, t.splice)
-  )
+  def errorMarkerMessageParams(c: LoggerContext)(marker: c.Expr[Marker], message: c.Expr[String], params: c.Expr[AnyRef]*) =
+    logParams(c)(message, params, Some(marker))("error")
+
+  def errorMarkerMessageThrowable(c: LoggerContext)(marker: c.Expr[Marker], message: c.Expr[String], t: c.Expr[Throwable]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isErrorEnabled)
+        c.prefix.splice.underlying.error(marker.splice, message.splice, t.splice)
+    )
 
   // Warn
 
-  def warn(c: LoggerContext)(message: c.Expr[String]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isWarnEnabled) c.prefix.splice.underlying.warn(message.splice)
-  )
+  def warnMessage(c: LoggerContext)(message: c.Expr[String]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isWarnEnabled)
+        c.prefix.splice.underlying.warn(message.splice)
+    )
 
-  def warnP(c: LoggerContext)(message: c.Expr[String], param: c.Expr[AnyRef]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isWarnEnabled)
-      c.prefix.splice.underlying.warn(message.splice, param.splice)
-  )
+  def warnMessageParams(c: LoggerContext)(message: c.Expr[String], params: c.Expr[AnyRef]*) =
+    logParams(c)(message, params, None)("warn")
 
-  def warnP2(c: LoggerContext)(message: c.Expr[String], param1: c.Expr[AnyRef], param2: c.Expr[AnyRef]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isWarnEnabled)
-      c.prefix.splice.underlying.warn(message.splice, param1.splice, param2.splice)
-  )
+  def warnMessageThrowable(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isWarnEnabled)
+        c.prefix.splice.underlying.warn(message.splice, t.splice)
+    )
 
-  def warnPs(c: LoggerContext)(message: c.Expr[String], params: c.Expr[Array[AnyRef]]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isWarnEnabled)
-      c.prefix.splice.underlying.warn(message.splice, params.splice)
-  )
+  def warnMarkerMessage(c: LoggerContext)(marker: c.Expr[Marker], message: c.Expr[String]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isWarnEnabled)
+        c.prefix.splice.underlying.warn(marker.splice, message.splice)
+    )
 
-  def warnT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isWarnEnabled) c.prefix.splice.underlying.warn(message.splice, t.splice)
-  )
+  def warnMarkerMessageParams(c: LoggerContext)(marker: c.Expr[Marker], message: c.Expr[String], params: c.Expr[AnyRef]*) =
+    logParams(c)(message, params, Some(marker))("warn")
+
+  def warnMarkerMessageThrowable(c: LoggerContext)(marker: c.Expr[Marker], message: c.Expr[String], t: c.Expr[Throwable]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isWarnEnabled)
+        c.prefix.splice.underlying.warn(marker.splice, message.splice, t.splice)
+    )
 
   // Info
 
-  def info(c: LoggerContext)(message: c.Expr[String]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isInfoEnabled) c.prefix.splice.underlying.info(message.splice)
-  )
+  def infoMessage(c: LoggerContext)(message: c.Expr[String]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isInfoEnabled)
+        c.prefix.splice.underlying.info(message.splice)
+    )
 
-  def infoP(c: LoggerContext)(message: c.Expr[String], param: c.Expr[AnyRef]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isInfoEnabled)
-      c.prefix.splice.underlying.info(message.splice, param.splice)
-  )
+  def infoMessageParams(c: LoggerContext)(message: c.Expr[String], params: c.Expr[AnyRef]*) =
+    logParams(c)(message, params, None)("info")
 
-  def infoP2(c: LoggerContext)(message: c.Expr[String], param1: c.Expr[AnyRef], param2: c.Expr[AnyRef]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isInfoEnabled)
-      c.prefix.splice.underlying.info(message.splice, param1.splice, param2.splice)
-  )
+  def infoMessageThrowable(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isInfoEnabled)
+        c.prefix.splice.underlying.info(message.splice, t.splice)
+    )
 
-  def infoPs(c: LoggerContext)(message: c.Expr[String], params: c.Expr[Array[AnyRef]]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isInfoEnabled)
-      c.prefix.splice.underlying.info(message.splice, params.splice)
-  )
+  def infoMarkerMessage(c: LoggerContext)(marker: c.Expr[Marker], message: c.Expr[String]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isInfoEnabled)
+        c.prefix.splice.underlying.info(marker.splice, message.splice)
+    )
 
-  def infoT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isInfoEnabled) c.prefix.splice.underlying.info(message.splice, t.splice)
-  )
+  def infoMarkerMessageParams(c: LoggerContext)(marker: c.Expr[Marker], message: c.Expr[String], params: c.Expr[AnyRef]*) =
+    logParams(c)(message, params, Some(marker))("info")
+
+  def infoMarkerMessageThrowable(c: LoggerContext)(marker: c.Expr[Marker], message: c.Expr[String], t: c.Expr[Throwable]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isInfoEnabled)
+        c.prefix.splice.underlying.info(marker.splice, message.splice, t.splice)
+    )
 
   // Debug
 
-  def debug(c: LoggerContext)(message: c.Expr[String]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isDebugEnabled) c.prefix.splice.underlying.debug(message.splice)
-  )
+  def debugMessage(c: LoggerContext)(message: c.Expr[String]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isDebugEnabled)
+        c.prefix.splice.underlying.debug(message.splice)
+    )
 
-  def debugP(c: LoggerContext)(message: c.Expr[String], param: c.Expr[AnyRef]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isDebugEnabled)
-      c.prefix.splice.underlying.debug(message.splice, param.splice)
-  )
+  def debugMessageParams(c: LoggerContext)(message: c.Expr[String], params: c.Expr[AnyRef]*) =
+    logParams(c)(message, params, None)("debug")
 
-  def debugP2(c: LoggerContext)(message: c.Expr[String], param1: c.Expr[AnyRef], param2: c.Expr[AnyRef]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isDebugEnabled)
-      c.prefix.splice.underlying.debug(message.splice, param1.splice, param2.splice)
-  )
+  def debugMessageThrowable(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isDebugEnabled)
+        c.prefix.splice.underlying.debug(message.splice, t.splice)
+    )
 
-  def debugPs(c: LoggerContext)(message: c.Expr[String], params: c.Expr[Array[AnyRef]]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isDebugEnabled)
-      c.prefix.splice.underlying.debug(message.splice, params.splice)
-  )
+  def debugMarkerMessage(c: LoggerContext)(marker: c.Expr[Marker], message: c.Expr[String]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isDebugEnabled)
+        c.prefix.splice.underlying.debug(marker.splice, message.splice)
+    )
 
-  def debugT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isDebugEnabled) c.prefix.splice.underlying.debug(message.splice, t.splice)
-  )
+  def debugMarkerMessageParams(c: LoggerContext)(marker: c.Expr[Marker], message: c.Expr[String], params: c.Expr[AnyRef]*) =
+    logParams(c)(message, params, Some(marker))("debug")
+
+  def debugMarkerMessageThrowable(c: LoggerContext)(marker: c.Expr[Marker], message: c.Expr[String], t: c.Expr[Throwable]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isDebugEnabled)
+        c.prefix.splice.underlying.debug(marker.splice, message.splice, t.splice)
+    )
 
   // Trace
 
-  def trace(c: LoggerContext)(message: c.Expr[String]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isTraceEnabled) c.prefix.splice.underlying.trace(message.splice)
-  )
+  def traceMessage(c: LoggerContext)(message: c.Expr[String]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isTraceEnabled)
+        c.prefix.splice.underlying.trace(message.splice)
+    )
 
-  def traceP(c: LoggerContext)(message: c.Expr[String], param: c.Expr[AnyRef]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isTraceEnabled)
-      c.prefix.splice.underlying.trace(message.splice, param.splice)
-  )
+  def traceMessageParams(c: LoggerContext)(message: c.Expr[String], params: c.Expr[AnyRef]*) =
+    logParams(c)(message, params, None)("trace")
 
-  def traceP2(c: LoggerContext)(message: c.Expr[String], param1: c.Expr[AnyRef], param2: c.Expr[AnyRef]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isTraceEnabled)
-      c.prefix.splice.underlying.trace(message.splice, param1.splice, param2.splice)
-  )
+  def traceMessageThrowable(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isTraceEnabled)
+        c.prefix.splice.underlying.trace(message.splice, t.splice)
+    )
 
-  def tracePs(c: LoggerContext)(message: c.Expr[String], params: c.Expr[Array[AnyRef]]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isTraceEnabled)
-      c.prefix.splice.underlying.trace(message.splice, params.splice)
-  )
+  def traceMarkerMessage(c: LoggerContext)(marker: c.Expr[Marker], message: c.Expr[String]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isTraceEnabled)
+        c.prefix.splice.underlying.trace(marker.splice, message.splice)
+    )
 
-  def traceT(c: LoggerContext)(message: c.Expr[String], t: c.Expr[Throwable]) = c.universe.reify(
-    if (c.prefix.splice.underlying.isTraceEnabled) c.prefix.splice.underlying.trace(message.splice, t.splice)
-  )
+  def traceMarkerMessageParams(c: LoggerContext)(marker: c.Expr[Marker], message: c.Expr[String], params: c.Expr[AnyRef]*) =
+    logParams(c)(message, params, Some(marker))("trace")
+
+  def traceMarkerMessageThrowable(c: LoggerContext)(marker: c.Expr[Marker], message: c.Expr[String], t: c.Expr[Throwable]) =
+    c.universe.reify(
+      if (c.prefix.splice.underlying.isTraceEnabled)
+        c.prefix.splice.underlying.trace(marker.splice, message.splice, t.splice)
+    )
+
+  // Common
+
+  private def logParams(
+    c: LoggerContext)(
+      message: c.Expr[String],
+      params: Seq[c.Expr[AnyRef]],
+      marker: Option[c.Expr[Marker]])(
+        level: String) = {
+    import c.universe._
+    val isEnabled = Select(
+      Select(c.prefix.tree, newTermName("underlying")),
+      newTermName(s"is${level.head.toUpper +: level.tail}Enabled")
+    )
+    val log = Apply(
+      Select(Select(c.prefix.tree, newTermName("underlying")), newTermName(level)),
+      marker.foldRight(message.tree +: (params map (_.tree)).toList)(_.tree +: _)
+    )
+    c.Expr(If(isEnabled, log, Literal(Constant(()))))
+  }
 }

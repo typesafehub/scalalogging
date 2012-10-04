@@ -16,120 +16,204 @@
 
 package com.typesafe.scalalogging.slf4j
 
-import org.slf4j.{ Logger => Underlying }
+import org.slf4j.{ Logger => Underlying, MarkerFactory }
 import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
 
 object Slf4jLoggerSpec extends Specification with Mockito {
 
-  private val Message = "Some log message!"
-  private val Exception = new Exception("Some exception")
+  private val Message = "String message!"
 
-  "Calling a not-enabled logging method" should {
-    "result in the underlying method not being called" in {
+  private val AnyRefMessage = new AnyRef
+
+  private val Throwable = new Exception("Exception")
+
+  private val Marker = MarkerFactory getMarker "Marker"
+
+  private val Params = List("1", "2", new java.util.Date(3))
+
+  "Calling error" should {
+    "not call the underlying logger if level not enabled" in {
       val underlying = mock[Underlying]
-      underlying.isTraceEnabled returns false
+      underlying.isErrorEnabled returns false
       val logger = Logger(underlying)
-      logger.trace(Message)
-      there was no(underlying).trace(Message)
-      logger.trace(Message, "p1")
-      there was no(underlying).trace(Message, "p1")
-      logger.trace(Message, "p1", "p2")
-      there was no(underlying).trace(Message, "p1", "p2")
-      logger.trace(Message, Array("p1", "p2", "p3"))
-      there was no(underlying).trace(Message, Array("p1", "p2", "p3"))
-      logger.trace(Message, Exception)
-      there was no(underlying).trace(Message, Exception)
+      logger.error(Message)
+      there was no(underlying).error(Message)
+      logger.error(Message, Params: _*)
+      there was no(underlying).error(Message, Params: _*)
+      logger.error(Message, Throwable)
+      there was no(underlying).error(Message, Throwable)
+      logger.error(Marker, Message)
+      there was no(underlying).error(Marker, Message)
+      logger.error(Marker, Message, Params: _*)
+      there was no(underlying).error(Marker, Message, Params: _*)
+      logger.error(Marker, Message, Throwable)
+      there was no(underlying).error(Marker, Message, Throwable)
     }
-  }
-
-  "Calling the enabled error method" should {
-    "result in the underlying method being called" in {
+    "call the underlying logger if level enabled" in {
       val underlying = mock[Underlying]
       underlying.isErrorEnabled returns true
       val logger = Logger(underlying)
       logger.error(Message)
       there was one(underlying).error(Message)
-      logger.error(Message, "p1")
-      there was one(underlying).error(Message, "p1")
-      logger.error(Message, "p1", "p2")
-      there was one(underlying).error(Message, "p1", "p2")
-      logger.error(Message, Array("p1", "p2", "p3"))
-      there was one(underlying).error(Message, Array("p1", "p2", "p3"))
-      logger.error(Message, Exception)
-      there was one(underlying).error(Message, Exception)
+      logger.error(Message, Params: _*)
+      there was one(underlying).error(Message, Params: _*)
+      logger.error(Message, Throwable)
+      there was one(underlying).error(Message, Throwable)
+      logger.error(Marker, Message)
+      there was one(underlying).error(Marker, Message)
+      logger.error(Marker, Message, Params: _*)
+      there was one(underlying).error(Marker, Message, Params: _*)
+      logger.error(Marker, Message, Throwable)
+      there was one(underlying).error(Marker, Message, Throwable)
     }
   }
 
-  "Calling the enabled warn method" should {
-    "result in the underlying method being called" in {
+  "Calling warn" should {
+    "not call the underlying logger if level not enabled" in {
+      val underlying = mock[Underlying]
+      underlying.isWarnEnabled returns false
+      val logger = Logger(underlying)
+      logger.warn(Message)
+      there was no(underlying).warn(Message)
+      logger.warn(Message, Params: _*)
+      there was no(underlying).warn(Message, Params: _*)
+      logger.warn(Message, Throwable)
+      there was no(underlying).warn(Message, Throwable)
+      logger.warn(Marker, Message)
+      there was no(underlying).warn(Marker, Message)
+      logger.warn(Marker, Message, Params: _*)
+      there was no(underlying).warn(Marker, Message, Params: _*)
+      logger.warn(Marker, Message, Throwable)
+      there was no(underlying).warn(Marker, Message, Throwable)
+    }
+    "call the underlying logger if level enabled" in {
       val underlying = mock[Underlying]
       underlying.isWarnEnabled returns true
       val logger = Logger(underlying)
       logger.warn(Message)
       there was one(underlying).warn(Message)
-      logger.warn(Message, "p1")
-      there was one(underlying).warn(Message, "p1")
-      logger.warn(Message, "p1", "p2")
-      there was one(underlying).warn(Message, "p1", "p2")
-      logger.warn(Message, Array("p1", "p2", "p3"))
-      there was one(underlying).warn(Message, Array("p1", "p2", "p3"))
-      logger.warn(Message, Exception)
-      there was one(underlying).warn(Message, Exception)
+      logger.warn(Message, Params: _*)
+      there was one(underlying).warn(Message, Params: _*)
+      logger.warn(Message, Throwable)
+      there was one(underlying).warn(Message, Throwable)
+      logger.warn(Marker, Message)
+      there was one(underlying).warn(Marker, Message)
+      logger.warn(Marker, Message, Params: _*)
+      there was one(underlying).warn(Marker, Message, Params: _*)
+      logger.warn(Marker, Message, Throwable)
+      there was one(underlying).warn(Marker, Message, Throwable)
     }
   }
 
-  "Calling the enabled info method" should {
-    "result in the underlying method being called" in {
+  "Calling info" should {
+    "not call the underlying logger if level not enabled" in {
+      val underlying = mock[Underlying]
+      underlying.isInfoEnabled returns false
+      val logger = Logger(underlying)
+      logger.info(Message)
+      there was no(underlying).info(Message)
+      logger.info(Message, Params: _*)
+      there was no(underlying).info(Message, Params: _*)
+      logger.info(Message, Throwable)
+      there was no(underlying).info(Message, Throwable)
+      logger.info(Marker, Message)
+      there was no(underlying).info(Marker, Message)
+      logger.info(Marker, Message, Params: _*)
+      there was no(underlying).info(Marker, Message, Params: _*)
+      logger.info(Marker, Message, Throwable)
+      there was no(underlying).info(Marker, Message, Throwable)
+    }
+    "call the underlying logger if level enabled" in {
       val underlying = mock[Underlying]
       underlying.isInfoEnabled returns true
       val logger = Logger(underlying)
       logger.info(Message)
       there was one(underlying).info(Message)
-      logger.info(Message, "p1")
-      there was one(underlying).info(Message, "p1")
-      logger.info(Message, "p1", "p2")
-      there was one(underlying).info(Message, "p1", "p2")
-      logger.info(Message, Array("p1", "p2", "p3"))
-      there was one(underlying).info(Message, Array("p1", "p2", "p3"))
-      logger.info(Message, Exception)
-      there was one(underlying).info(Message, Exception)
+      logger.info(Message, Params: _*)
+      there was one(underlying).info(Message, Params: _*)
+      logger.info(Message, Throwable)
+      there was one(underlying).info(Message, Throwable)
+      logger.info(Marker, Message)
+      there was one(underlying).info(Marker, Message)
+      logger.info(Marker, Message, Params: _*)
+      there was one(underlying).info(Marker, Message, Params: _*)
+      logger.info(Marker, Message, Throwable)
+      there was one(underlying).info(Marker, Message, Throwable)
     }
   }
 
-  "Calling the enabled debug method" should {
-    "result in the underlying method being called" in {
+  "Calling debug" should {
+    "not call the underlying logger if level not enabled" in {
+      val underlying = mock[Underlying]
+      underlying.isDebugEnabled returns false
+      val logger = Logger(underlying)
+      logger.debug(Message)
+      there was no(underlying).debug(Message)
+      logger.debug(Message, Params: _*)
+      there was no(underlying).debug(Message, Params: _*)
+      logger.debug(Message, Throwable)
+      there was no(underlying).debug(Message, Throwable)
+      logger.debug(Marker, Message)
+      there was no(underlying).debug(Marker, Message)
+      logger.debug(Marker, Message, Params: _*)
+      there was no(underlying).debug(Marker, Message, Params: _*)
+      logger.debug(Marker, Message, Throwable)
+      there was no(underlying).debug(Marker, Message, Throwable)
+    }
+    "call the underlying logger if level enabled" in {
       val underlying = mock[Underlying]
       underlying.isDebugEnabled returns true
       val logger = Logger(underlying)
       logger.debug(Message)
       there was one(underlying).debug(Message)
-      logger.debug(Message, "p1")
-      there was one(underlying).debug(Message, "p1")
-      logger.debug(Message, "p1", "p2")
-      there was one(underlying).debug(Message, "p1", "p2")
-      logger.debug(Message, Array("p1", "p2", "p3"))
-      there was one(underlying).debug(Message, Array("p1", "p2", "p3"))
-      logger.debug(Message, Exception)
-      there was one(underlying).debug(Message, Exception)
+      logger.debug(Message, Params: _*)
+      there was one(underlying).debug(Message, Params: _*)
+      logger.debug(Message, Throwable)
+      there was one(underlying).debug(Message, Throwable)
+      logger.debug(Marker, Message)
+      there was one(underlying).debug(Marker, Message)
+      logger.debug(Marker, Message, Params: _*)
+      there was one(underlying).debug(Marker, Message, Params: _*)
+      logger.debug(Marker, Message, Throwable)
+      there was one(underlying).debug(Marker, Message, Throwable)
     }
   }
 
-  "Calling the enabled trace method" should {
-    "result in the underlying method being called" in {
+  "Calling trace" should {
+    "not call the underlying logger if level not enabled" in {
+      val underlying = mock[Underlying]
+      underlying.isTraceEnabled returns false
+      val logger = Logger(underlying)
+      logger.trace(Message)
+      there was no(underlying).trace(Message)
+      logger.trace(Message, Params: _*)
+      there was no(underlying).trace(Message, Params: _*)
+      logger.trace(Message, Throwable)
+      there was no(underlying).trace(Message, Throwable)
+      logger.trace(Marker, Message)
+      there was no(underlying).trace(Marker, Message)
+      logger.trace(Marker, Message, Params: _*)
+      there was no(underlying).trace(Marker, Message, Params: _*)
+      logger.trace(Marker, Message, Throwable)
+      there was no(underlying).trace(Marker, Message, Throwable)
+    }
+    "call the underlying logger if level enabled" in {
       val underlying = mock[Underlying]
       underlying.isTraceEnabled returns true
       val logger = Logger(underlying)
       logger.trace(Message)
       there was one(underlying).trace(Message)
-      logger.trace(Message, "p1")
-      there was one(underlying).trace(Message, "p1")
-      logger.trace(Message, "p1", "p2")
-      there was one(underlying).trace(Message, "p1", "p2")
-      logger.trace(Message, Array("p1", "p2", "p3"))
-      there was one(underlying).trace(Message, Array("p1", "p2", "p3"))
-      logger.trace(Message, Exception)
-      there was one(underlying).trace(Message, Exception)
+      logger.trace(Message, Params: _*)
+      there was one(underlying).trace(Message, Params: _*)
+      logger.trace(Message, Throwable)
+      there was one(underlying).trace(Message, Throwable)
+      logger.trace(Marker, Message)
+      there was one(underlying).trace(Marker, Message)
+      logger.trace(Marker, Message, Params: _*)
+      there was one(underlying).trace(Marker, Message, Params: _*)
+      logger.trace(Marker, Message, Throwable)
+      there was one(underlying).trace(Marker, Message, Throwable)
     }
   }
 }
