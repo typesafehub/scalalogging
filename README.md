@@ -1,9 +1,7 @@
 ScalaLogging
 ============
 
-Scala logging library wrapping <a href="http://www.slf4j.org/">SLF4J</a> in a convenient and performant fashion.
-
-**Important change**: From version 0.2.0 on ScalaLogging is published under the group id `com.typesafe`. Also, the artifact id has changed to `scalalogging-slf4j`.
+Scala logging library wrapping <a href="http://www.slf4j.org/">SLF4J</a> and <a href="http://logging.apache.org/log4j/2.x/">Log4j 2</a> in a convenient and performant fashion.
 
 In principle the call of log messages should be avoided if the given log level is not enabled. Hence we should write the following code to log at the `debug` level:
 
@@ -25,13 +23,11 @@ In addition ScalaLogging offers the trait `Logging` which conveniently provides 
       logger.debug("This is very convenient ;-)")
     }
 
-
 Prerequisites
 -------------
 
 * Scala 2.10.0-M7
-* SLF4J 1.6.6
-
+* SLF4J 1.7.1 or Log4j 2.0-beta1
 
 Using ScalaLogging
 ------------------
@@ -48,12 +44,10 @@ The following example shows how to add a dependency to the latest **snapshot** v
 
     libraryDependencies += "com.typesafe" %% "scalalogging-slf4j" % "0.4.0-SNAPSHOT" cross CrossVersion.full
 
-
 Contribution policy
 -------------------
 
-Contributions via GitHub pull requests are gladly accepted from their original author. Before we can accept pull requests, you will need to agree to the <a href="http://www.typesafe.com/contribute/cla">Typesafe Contributor License Agreement</a> online, using your GitHub account - it takes 30 seconds.
-
+Contributions via GitHub pull requests are gladly accepted from their original author. Before we can accept pull requests, you will need to agree to the <a href="http://www.typesafe.com/contribute/cla">Typesafe Contributor License Agreement</a> online, using your GitHub account.
 
 License
 -------
