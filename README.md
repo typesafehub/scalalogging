@@ -36,13 +36,13 @@ ScalaLogging is published to the Sonatype OSS snapshot and release repositories.
 
 The following example shows how to add a dependency to the latest **release** version of ScalaLogging to your sbt (0.12.0 or later) build definition:
 
-    libraryDependencies += "com.typesafe" %% "scalalogging-slf4j" % "0.3.0" cross CrossVersion.full
+    libraryDependencies += "com.typesafe" %% "scalalogging-slf4j" % "0.4.0" cross CrossVersion.full
 
 The following example shows how to add a dependency to the latest **snapshot** version of ScalaLogging to your sbt (0.12.0 or later) build definition:
 
     resolvers += Opts.resolver.sonatypeSnapshots
 
-    libraryDependencies += "com.typesafe" %% "scalalogging-slf4j" % "0.4.0-SNAPSHOT" cross CrossVersion.full
+    libraryDependencies += "com.typesafe" %% "scalalogging-slf4j" % "0.5.0-SNAPSHOT" cross CrossVersion.full
 
 Contribution policy
 -------------------
