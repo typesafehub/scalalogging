@@ -26,8 +26,8 @@ In addition ScalaLogging offers the trait `Logging` which conveniently provides 
 Prerequisites
 -------------
 
-* Scala 2.10.0-M7
-* SLF4J 1.7.1 or Log4j 2.0-beta1
+* Scala 2.10.0-RC1
+* SLF4J 1.7.2 or Log4j 2.0-beta1
 
 Using ScalaLogging
 ------------------

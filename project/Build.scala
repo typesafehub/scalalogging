@@ -5,7 +5,7 @@ import sbtrelease.ReleasePlugin._
 
 object Build extends Build {
 
-  val ScalaVersion = "2.10.0-M7"
+  val ScalaVersion = "2.10.0-RC1"
 
   lazy val root = Project(
     "scalalogging",
@@ -65,7 +65,7 @@ object Build extends Build {
     scalariformSettings ++
     releaseSettings ++
     Seq(
-      crossVersion := CrossVersion.full, // TODO Remove as soon as on Scala 2.10.0 final
+      scalaBinaryVersion := "2.10.0-RC1", // TODO Remove as soon as on Scala 2.10.0 final
       organization := "com.typesafe",
       scalaVersion := ScalaVersion,
       scalacOptions ++= Seq("-unchecked", "-deprecation", "-optimize", "-target:jvm-1.6"),
@@ -99,13 +99,13 @@ object Build extends Build {
 
     object Compile {
       val ScalaReflect = "org.scala-lang" % "scala-reflect" % ScalaVersion
-      val Slf4jApi = "org.slf4j" % "slf4j-api" % "1.7.1"
+      val Slf4jApi = "org.slf4j" % "slf4j-api" % "1.7.2"
       val Log4jApi = "org.apache.logging.log4j" % "log4j-api" % "2.0-beta1"
     }
 
     object Test {
-      val Specs2 = "org.specs2" %% "specs2" % "1.12.1.1" % "test" cross CrossVersion.full
-      val ScalaCheck = "org.scalacheck" %% "scalacheck" % "1.10.0" % "test" cross CrossVersion.full
+      val Specs2 = "org.specs2" %% "specs2" % "1.12.2" % "test"
+      val ScalaCheck = "org.scalacheck" %% "scalacheck" % "1.10.0" % "test"
       val Mockito = "org.mockito" % "mockito-all" % "1.9.0" % "test"
       val Hamcrest = "org.hamcrest" % "hamcrest-all" % "1.1" % "test"
     }
