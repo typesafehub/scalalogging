@@ -26,7 +26,7 @@ In addition ScalaLogging offers the trait `Logging` which conveniently provides 
 Prerequisites
 -------------
 
-* Scala 2.10.0-RC1
+* Scala 2.10.0-RC2
 * SLF4J 1.7.2 or Log4j 2.0-beta1
 
 Using ScalaLogging
@@ -34,11 +34,11 @@ Using ScalaLogging
 
 ScalaLogging is published to the Sonatype OSS snapshot and release repositories. As the Sonatype OSS release repository is mirrored to Maven Central (with a certain delay), you can use releases without adding custom resolvers to your sbt build definition or custom repositories to your Maven POM. The group id (organization) is `com.typesafe` and the artifact id (name) is `scalalogging-slf4j`.
 
-The following example shows how to add a dependency to the latest **release** version of ScalaLogging to your sbt (0.12.0 or later) build definition:
+The following example shows how to add a dependency to the latest **release** version of ScalaLogging to your sbt (0.12.x) build definition:
 
     libraryDependencies += "com.typesafe" %% "scalalogging-slf4j" % "0.4.0" cross CrossVersion.full
 
-The following example shows how to add a dependency to the latest **snapshot** version of ScalaLogging to your sbt (0.12.0 or later) build definition:
+The following example shows how to add a dependency to the latest **snapshot** version of ScalaLogging to your sbt (0.12.x) build definition:
 
     resolvers += Opts.resolver.sonatypeSnapshots
 
