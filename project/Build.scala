@@ -5,7 +5,7 @@ import sbtrelease.ReleasePlugin._
 
 object Build extends Build {
 
-  val ScalaVersion = "2.10.0-RC2"
+  val ScalaVersion = "2.10.0-RC3"
 
   lazy val root = Project(
     "scalalogging",
@@ -65,13 +65,12 @@ object Build extends Build {
     scalariformSettings ++
     releaseSettings ++
     Seq(
-      scalaBinaryVersion := "2.10.0-RC2", // TODO Remove as soon as on Scala 2.10.0 final
+      scalaBinaryVersion := ScalaVersion, // TODO Remove as soon as on Scala 2.10.0 final
       organization := "com.typesafe",
       scalaVersion := ScalaVersion,
       scalacOptions ++= Seq("-unchecked", "-deprecation", "-optimize", "-target:jvm-1.6"),
       libraryDependencies ++= Seq(
         Dependencies.Test.Specs2,
-        Dependencies.Test.ScalaCheck,
         Dependencies.Test.Mockito,
         Dependencies.Test.Hamcrest
       ),
@@ -104,8 +103,7 @@ object Build extends Build {
     }
 
     object Test {
-      val Specs2 = "org.specs2" %% "specs2" % "1.12.2" % "test"
-      val ScalaCheck = "org.scalacheck" %% "scalacheck" % "1.10.0" % "test"
+      val Specs2 = "org.specs2" %% "specs2" % "1.12.3" % "test"
       val Mockito = "org.mockito" % "mockito-all" % "1.9.0" % "test"
       val Hamcrest = "org.hamcrest" % "hamcrest-all" % "1.1" % "test"
     }
