@@ -5,7 +5,7 @@ import sbtrelease.ReleasePlugin._
 
 object Build extends Build {
 
-  val ScalaVersion = "2.10.0-RC5"
+  val ScalaVersion = "2.10.0"
 
   lazy val root = Project(
     "scalalogging",
@@ -61,11 +61,11 @@ object Build extends Build {
     dependencies = Seq(scalaloggingLog4j)
   )
 
-  def commonSettings = Defaults.defaultSettings ++ 
+  def commonSettings =
+    Defaults.defaultSettings ++ 
     scalariformSettings ++
     releaseSettings ++
     Seq(
-      scalaBinaryVersion := ScalaVersion, // TODO Remove as soon as on Scala 2.10.0 final
       organization := "com.typesafe",
       scalaVersion := ScalaVersion,
       scalacOptions ++= Seq("-unchecked", "-deprecation", "-optimize", "-target:jvm-1.6"),
