@@ -27,7 +27,7 @@ Prerequisites
 -------------
 
 * Scala 2.10.0
-* SLF4J 1.7.2 or Log4j 2.0-beta2
+* SLF4J 1.7.2 or Log4j 2.0-beta3
 
 Using ScalaLogging
 ------------------
