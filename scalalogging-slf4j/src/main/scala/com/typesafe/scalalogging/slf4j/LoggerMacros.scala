@@ -196,9 +196,16 @@ object LoggerMacros {
       Select(c.prefix.tree, newTermName("underlying")),
       newTermName(s"is${level.head.toUpper +: level.tail}Enabled")
     )
+    val paramsWildcard = Typed(
+      Apply(
+        Ident(newTermName("List")),
+        (params map (_.tree)).toList
+      ),
+      Ident(tpnme.WILDCARD_STAR)
+    )
     val log = Apply(
       Select(Select(c.prefix.tree, newTermName("underlying")), newTermName(level)),
-      marker.foldRight(message.tree +: (params map (_.tree)).toList)(_.tree +: _)
+      marker.foldRight(message.tree +: List(paramsWildcard))(_.tree +: _)
     )
     c.Expr(If(isEnabled, log, Literal(Constant(()))))
   }
