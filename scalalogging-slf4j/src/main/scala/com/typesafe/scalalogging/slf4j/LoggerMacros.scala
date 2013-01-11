@@ -23,7 +23,7 @@ object LoggerMacros {
 
   type LoggerContext = Context { type PrefixType = Logger }
 
-  // Errror
+  // Error
 
   def errorMessage(c: LoggerContext)(message: c.Expr[String]) =
     c.universe.reify(
