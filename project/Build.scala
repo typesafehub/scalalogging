@@ -5,7 +5,7 @@ import sbtrelease.ReleasePlugin._
 
 object Build extends Build {
 
-  val ScalaVersion = "2.10.0"
+  val ScalaVersion = "2.10.1"
 
   lazy val root = Project(
     "scalalogging",
@@ -26,8 +26,8 @@ object Build extends Build {
     file("scalalogging-slf4j"),
     settings = commonSettings ++ Seq(
       libraryDependencies := Seq(
-        Dependencies.Compile.ScalaReflect,
-        Dependencies.Compile.Slf4jApi
+        Dependencies.Compile.scalaReflect,
+        Dependencies.Compile.slf4jApi
       )
     )
   )
@@ -46,8 +46,8 @@ object Build extends Build {
     file("scalalogging-log4j"),
     settings = commonSettings ++ Seq(
       libraryDependencies := Seq(
-        Dependencies.Compile.ScalaReflect,
-        Dependencies.Compile.Log4jApi
+        Dependencies.Compile.scalaReflect,
+        Dependencies.Compile.log4jApi
       )
     )
   )
@@ -68,11 +68,17 @@ object Build extends Build {
     Seq(
       organization := "com.typesafe",
       scalaVersion := ScalaVersion,
-      scalacOptions ++= Seq("-unchecked", "-deprecation", "-optimize", "-target:jvm-1.6"),
+      scalacOptions ++= Seq(
+        "-unchecked",
+        "-deprecation",
+        "-Xlint",
+        "-target:jvm-1.6",
+        "-encoding", "UTF-8"
+      ),
       libraryDependencies ++= Seq(
-        Dependencies.Test.Specs2,
-        Dependencies.Test.Mockito,
-        Dependencies.Test.Hamcrest
+        Dependencies.Test.specs2,
+        Dependencies.Test.mockito,
+        Dependencies.Test.hamcrest
       ),
       licenses := Seq("Apache 2.0 License" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
       homepage := Some(url("https://github.com/typesafehub/scalalogging")),
@@ -97,15 +103,15 @@ object Build extends Build {
   object Dependencies {
 
     object Compile {
-      val ScalaReflect = "org.scala-lang" % "scala-reflect" % ScalaVersion
-      val Slf4jApi = "org.slf4j" % "slf4j-api" % "1.7.2"
-      val Log4jApi = "org.apache.logging.log4j" % "log4j-api" % "2.0-beta3"
+      val scalaReflect = "org.scala-lang" % "scala-reflect" % ScalaVersion
+      val slf4jApi = "org.slf4j" % "slf4j-api" % "1.7.4"
+      val log4jApi = "org.apache.logging.log4j" % "log4j-api" % "2.0-beta4"
     }
 
     object Test {
-      val Specs2 = "org.specs2" %% "specs2" % "1.12.3" % "test"
-      val Mockito = "org.mockito" % "mockito-all" % "1.9.0" % "test"
-      val Hamcrest = "org.hamcrest" % "hamcrest-all" % "1.1" % "test"
+      val specs2 = "org.specs2" %% "specs2" % "1.14" % "test"
+      val mockito = "org.mockito" % "mockito-all" % "1.9.0" % "test"
+      val hamcrest = "org.hamcrest" % "hamcrest-all" % "1.1" % "test"
     }
   }
 }
