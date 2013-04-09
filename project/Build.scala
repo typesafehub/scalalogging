@@ -28,7 +28,8 @@ object Build extends Build {
       libraryDependencies := Seq(
         Dependencies.Compile.scalaReflect,
         Dependencies.Compile.slf4jApi
-      )
+      ),
+      initialCommands in console := "import com.typesafe.scalalogging.slf4j._"
     )
   )
 
@@ -48,7 +49,8 @@ object Build extends Build {
       libraryDependencies := Seq(
         Dependencies.Compile.scalaReflect,
         Dependencies.Compile.log4jApi
-      )
+      ),
+      initialCommands in console := "import com.typesafe.scalalogging.log4j._"
     )
   )
 
@@ -96,8 +98,7 @@ object Build extends Build {
             <name>Heiko Seeberger</name>
             <url>http://heikoseeberger.name</url>
           </developer>
-        </developers>,
-      initialCommands in console := "import com.typesafe.scalalogging._"
+        </developers>
     )
 
   object Dependencies {
