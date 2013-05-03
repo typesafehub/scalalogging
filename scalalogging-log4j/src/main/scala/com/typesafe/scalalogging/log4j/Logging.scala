@@ -19,28 +19,38 @@ package com.typesafe.scalalogging.log4j
 import org.apache.logging.log4j.LogManager
 
 /**
- * Adds the lazy val logger of type [[$Logger]] to the class into which this trait is mixed.
+ * Requires the member `logger` of type [[$Logger]] to be defined in the class into which this trait is mixed.
  *
- * If you need a not-lazy [[$Logger]], which would probably be a special case,
+ * @define Logger com.typesafe.scalalogging.log4j.Logger
+ */
+trait AbstractLogging {
+
+  protected def logger: Logger
+}
+
+/**
+ * Adds the lazy val `logger` of type [[$Logger]] to the class into which this trait is mixed.
+ *
+ * If you need a non-lazy [[$Logger]], which would probably be a special case,
  * use [[com.typesafe.scalalogging.log4j.StrictLogging]].
  *
  * @define Logger com.typesafe.scalalogging.log4j.Logger
  */
-trait Logging {
+trait Logging extends AbstractLogging {
 
   protected lazy val logger: Logger =
     Logger(LogManager getLogger getClass.getName)
 }
 
 /**
- * Adds the not-lazy val logger of type [[$Logger]] to the class into which this trait is mixed.
+ * Adds the non-lazy val `logger` of type [[$Logger]] to the class into which this trait is mixed.
  *
  * If you need a lazy [[$Logger]], which would probably be preferrable,
  * use [[com.typesafe.scalalogging.log4j.Logging]].
  *
  * @define Logger com.typesafe.scalalogging.log4j.Logger
  */
-trait StrictLogging {
+trait StrictLogging extends AbstractLogging {
 
   protected val logger: Logger =
     Logger(LogManager getLogger getClass.getName)

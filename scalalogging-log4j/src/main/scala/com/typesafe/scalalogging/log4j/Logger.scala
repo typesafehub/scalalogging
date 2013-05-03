@@ -23,14 +23,14 @@ object Logger {
 
   /**
    * Create a [[com.typesafe.scalalogging.log4j.Logger]] wrapping the given underlying
-   * ''org.apache.logging.log4j.Logger''.
+   * `org.apache.logging.log4j.Logger`.
    */
   def apply(underlying: Underlying): Logger =
     new Logger(underlying)
 }
 
 /**
- * Convenient and performant wrapper around the given underlying ''org.apache.logging.log4j.Logger''.
+ * Convenient and performant wrapper around the given underlying `org.apache.logging.log4j.Logger`.
  *
  * Convenient, because you can use string formatting, string interpolation or whatever you want
  * without thinking too much about performance.
