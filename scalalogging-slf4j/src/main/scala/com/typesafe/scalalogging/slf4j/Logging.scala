@@ -36,7 +36,7 @@ trait AbstractLogging {
  *
  * @define Logger com.typesafe.scalalogging.slf4j.Logger
  */
-trait Logging {
+trait Logging extends AbstractLogging {
 
   protected lazy val logger: Logger =
     Logger(LoggerFactory getLogger getClass.getName)
@@ -50,7 +50,7 @@ trait Logging {
  *
  * @define Logger com.typesafe.scalalogging.slf4j.Logger
  */
-trait StrictLogging {
+trait StrictLogging extends AbstractLogging {
 
   protected val logger: Logger =
     Logger(LoggerFactory getLogger getClass.getName)
