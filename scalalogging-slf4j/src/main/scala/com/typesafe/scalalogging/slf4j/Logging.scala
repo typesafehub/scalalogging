@@ -16,17 +16,9 @@
 
 package com.typesafe.scalalogging.slf4j
 
+import com.typesafe.scalalogging.AbstractLogging
+
 import org.slf4j.LoggerFactory
-
-/**
- * Requires the member `logger` of type [[$Logger]] to be defined in the class into which this trait is mixed.
- *
- * @define Logger com.typesafe.scalalogging.slf4j.Logger
- */
-trait AbstractLogging {
-
-  protected def logger: Logger
-}
 
 /**
  * Adds the lazy val `logger` of type [[$Logger]] to the class into which this trait is mixed.

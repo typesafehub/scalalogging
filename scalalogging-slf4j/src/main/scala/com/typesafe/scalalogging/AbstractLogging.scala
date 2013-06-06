@@ -1,0 +1,1 @@
+../../../../../../../scalalogging-log4j/src/main/scala/com/typesafe/scalalogging/AbstractLogging.scala
