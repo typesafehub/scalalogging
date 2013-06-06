@@ -38,7 +38,7 @@ trait AbstractLogging {
  */
 trait Logging extends AbstractLogging {
 
-  protected lazy val logger: Logger =
+  override protected lazy val logger: Logger =
     Logger(LoggerFactory getLogger getClass.getName)
 }
 
@@ -52,6 +52,6 @@ trait Logging extends AbstractLogging {
  */
 trait StrictLogging extends AbstractLogging {
 
-  protected val logger: Logger =
+  override protected val logger: Logger =
     Logger(LoggerFactory getLogger getClass.getName)
 }
