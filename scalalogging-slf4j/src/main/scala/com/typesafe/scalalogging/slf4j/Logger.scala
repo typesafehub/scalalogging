@@ -16,6 +16,8 @@
 
 package com.typesafe.scalalogging.slf4j
 
+import com.typesafe.scalalogging.AbstractLogger
+
 import language.experimental.macros
 import org.slf4j.{ Logger => Underlying, Marker }
 
@@ -35,15 +37,16 @@ object Logger {
  * without thinking too much about performance.
  * Performant, because by using macros the log methods are expanded inline to the check-enabled idiom.
  */
-final class Logger private (val underlying: Underlying) {
+final class Logger private (val underlying: Underlying)
+    extends AbstractLogger {
 
   // Error
 
-  def error(message: String): Unit = macro LoggerMacros.errorMessage
+  override def error(message: String): Unit = macro LoggerMacros.errorMessage
 
-  def error(message: String, params: AnyRef*): Unit = macro LoggerMacros.errorMessageParams
+  override def error(message: String, params: AnyRef*): Unit = macro LoggerMacros.errorMessageParams
 
-  def error(message: String, t: Throwable): Unit = macro LoggerMacros.errorMessageThrowable
+  override def error(message: String, t: Throwable): Unit = macro LoggerMacros.errorMessageThrowable
 
   def error(marker: Marker, message: String): Unit = macro LoggerMacros.errorMarkerMessage
 
@@ -53,11 +56,11 @@ final class Logger private (val underlying: Underlying) {
 
   // Warn
 
-  def warn(message: String): Unit = macro LoggerMacros.warnMessage
+  override def warn(message: String): Unit = macro LoggerMacros.warnMessage
 
-  def warn(message: String, params: AnyRef*): Unit = macro LoggerMacros.warnMessageParams
+  override def warn(message: String, params: AnyRef*): Unit = macro LoggerMacros.warnMessageParams
 
-  def warn(message: String, t: Throwable): Unit = macro LoggerMacros.warnMessageThrowable
+  override def warn(message: String, t: Throwable): Unit = macro LoggerMacros.warnMessageThrowable
 
   def warn(marker: Marker, message: String): Unit = macro LoggerMacros.warnMarkerMessage
 
@@ -67,11 +70,11 @@ final class Logger private (val underlying: Underlying) {
 
   // Info
 
-  def info(message: String): Unit = macro LoggerMacros.infoMessage
+  override def info(message: String): Unit = macro LoggerMacros.infoMessage
 
-  def info(message: String, params: AnyRef*): Unit = macro LoggerMacros.infoMessageParams
+  override def info(message: String, params: AnyRef*): Unit = macro LoggerMacros.infoMessageParams
 
-  def info(message: String, t: Throwable): Unit = macro LoggerMacros.infoMessageThrowable
+  override def info(message: String, t: Throwable): Unit = macro LoggerMacros.infoMessageThrowable
 
   def info(marker: Marker, message: String): Unit = macro LoggerMacros.infoMarkerMessage
 
@@ -81,11 +84,11 @@ final class Logger private (val underlying: Underlying) {
 
   // Debug
 
-  def debug(message: String): Unit = macro LoggerMacros.debugMessage
+  override def debug(message: String): Unit = macro LoggerMacros.debugMessage
 
-  def debug(message: String, params: AnyRef*): Unit = macro LoggerMacros.debugMessageParams
+  override def debug(message: String, params: AnyRef*): Unit = macro LoggerMacros.debugMessageParams
 
-  def debug(message: String, t: Throwable): Unit = macro LoggerMacros.debugMessageThrowable
+  override def debug(message: String, t: Throwable): Unit = macro LoggerMacros.debugMessageThrowable
 
   def debug(marker: Marker, message: String): Unit = macro LoggerMacros.debugMarkerMessage
 
@@ -95,11 +98,11 @@ final class Logger private (val underlying: Underlying) {
 
   // Trace
 
-  def trace(message: String): Unit = macro LoggerMacros.traceMessage
+  override def trace(message: String): Unit = macro LoggerMacros.traceMessage
 
-  def trace(message: String, params: AnyRef*): Unit = macro LoggerMacros.traceMessageParams
+  override def trace(message: String, params: AnyRef*): Unit = macro LoggerMacros.traceMessageParams
 
-  def trace(message: String, t: Throwable): Unit = macro LoggerMacros.traceMessageThrowable
+  override def trace(message: String, t: Throwable): Unit = macro LoggerMacros.traceMessageThrowable
 
   def trace(marker: Marker, message: String): Unit = macro LoggerMacros.traceMarkerMessage
 

@@ -16,6 +16,8 @@
 
 package com.typesafe.scalalogging.log4j
 
+import com.typesafe.scalalogging.AbstractLogger
+
 import language.experimental.macros
 import org.apache.logging.log4j.{ Logger => Underlying, Marker }
 
@@ -36,137 +38,138 @@ object Logger {
  * without thinking too much about performance.
  * Performant, because by using macros the log methods are expanded inline to the check-enabled idiom.
  */
-final class Logger private (val underlying: Underlying) {
+final class Logger private (val underlying: Underlying)
+    extends AbstractLogger {
 
   // Fatal
 
-  def fatal(message: String): Unit = macro LoggerMacros.fatalMessage
+  override def fatal(message: String): Unit = macro LoggerMacros.fatalMessage
 
   def fatal(marker: Marker, message: String): Unit = macro LoggerMacros.fatalMarkerMessage
 
-  def fatal(message: String, t: Throwable): Unit = macro LoggerMacros.fatalMessageThrowable
+  override def fatal(message: String, t: Throwable): Unit = macro LoggerMacros.fatalMessageThrowable
 
   def fatal(marker: Marker, message: String, t: Throwable): Unit = macro LoggerMacros.fatalMarkerMessageThrowable
 
-  def fatal(message: AnyRef): Unit = macro LoggerMacros.fatalAnyRefMessage
+  override def fatal(message: AnyRef): Unit = macro LoggerMacros.fatalAnyRefMessage
 
   def fatal(marker: Marker, message: AnyRef): Unit = macro LoggerMacros.fatalMarkerAnyRefMessage
 
-  def fatal(message: AnyRef, t: Throwable): Unit = macro LoggerMacros.fatalAnyRefMessageThrowable
+  override def fatal(message: AnyRef, t: Throwable): Unit = macro LoggerMacros.fatalAnyRefMessageThrowable
 
   def fatal(marker: Marker, message: AnyRef, t: Throwable): Unit = macro LoggerMacros.fatalMarkerAnyRefMessageThrowable
 
-  def fatal(message: String, params: AnyRef*): Unit = macro LoggerMacros.fatalMessageParams
+  override def fatal(message: String, params: AnyRef*): Unit = macro LoggerMacros.fatalMessageParams
 
   def fatal(marker: Marker, message: String, params: AnyRef*): Unit = macro LoggerMacros.fatalMarkerMessageParams
 
   // Error
 
-  def error(message: String): Unit = macro LoggerMacros.errorMessage
+  override def error(message: String): Unit = macro LoggerMacros.errorMessage
 
   def error(marker: Marker, message: String): Unit = macro LoggerMacros.errorMarkerMessage
 
-  def error(message: String, t: Throwable): Unit = macro LoggerMacros.errorMessageThrowable
+  override def error(message: String, t: Throwable): Unit = macro LoggerMacros.errorMessageThrowable
 
   def error(marker: Marker, message: String, t: Throwable): Unit = macro LoggerMacros.errorMarkerMessageThrowable
 
-  def error(message: AnyRef): Unit = macro LoggerMacros.errorAnyRefMessage
+  override def error(message: AnyRef): Unit = macro LoggerMacros.errorAnyRefMessage
 
   def error(marker: Marker, message: AnyRef): Unit = macro LoggerMacros.errorMarkerAnyRefMessage
 
-  def error(message: AnyRef, t: Throwable): Unit = macro LoggerMacros.errorAnyRefMessageThrowable
+  override def error(message: AnyRef, t: Throwable): Unit = macro LoggerMacros.errorAnyRefMessageThrowable
 
   def error(marker: Marker, message: AnyRef, t: Throwable): Unit = macro LoggerMacros.errorMarkerAnyRefMessageThrowable
 
-  def error(message: String, params: AnyRef*): Unit = macro LoggerMacros.errorMessageParams
+  override def error(message: String, params: AnyRef*): Unit = macro LoggerMacros.errorMessageParams
 
   def error(marker: Marker, message: String, params: AnyRef*): Unit = macro LoggerMacros.errorMarkerMessageParams
 
   // Warn
 
-  def warn(message: String): Unit = macro LoggerMacros.warnMessage
+  override def warn(message: String): Unit = macro LoggerMacros.warnMessage
 
   def warn(marker: Marker, message: String): Unit = macro LoggerMacros.warnMarkerMessage
 
-  def warn(message: String, t: Throwable): Unit = macro LoggerMacros.warnMessageThrowable
+  override def warn(message: String, t: Throwable): Unit = macro LoggerMacros.warnMessageThrowable
 
   def warn(marker: Marker, message: String, t: Throwable): Unit = macro LoggerMacros.warnMarkerMessageThrowable
 
-  def warn(message: AnyRef): Unit = macro LoggerMacros.warnAnyRefMessage
+  override def warn(message: AnyRef): Unit = macro LoggerMacros.warnAnyRefMessage
 
   def warn(marker: Marker, message: AnyRef): Unit = macro LoggerMacros.warnMarkerAnyRefMessage
 
-  def warn(message: AnyRef, t: Throwable): Unit = macro LoggerMacros.warnAnyRefMessageThrowable
+  override def warn(message: AnyRef, t: Throwable): Unit = macro LoggerMacros.warnAnyRefMessageThrowable
 
   def warn(marker: Marker, message: AnyRef, t: Throwable): Unit = macro LoggerMacros.warnMarkerAnyRefMessageThrowable
 
-  def warn(message: String, params: AnyRef*): Unit = macro LoggerMacros.warnMessageParams
+  override def warn(message: String, params: AnyRef*): Unit = macro LoggerMacros.warnMessageParams
 
   def warn(marker: Marker, message: String, params: AnyRef*): Unit = macro LoggerMacros.warnMarkerMessageParams
 
   // Info
 
-  def info(message: String): Unit = macro LoggerMacros.infoMessage
+  override def info(message: String): Unit = macro LoggerMacros.infoMessage
 
   def info(marker: Marker, message: String): Unit = macro LoggerMacros.infoMarkerMessage
 
-  def info(message: String, t: Throwable): Unit = macro LoggerMacros.infoMessageThrowable
+  override def info(message: String, t: Throwable): Unit = macro LoggerMacros.infoMessageThrowable
 
   def info(marker: Marker, message: String, t: Throwable): Unit = macro LoggerMacros.infoMarkerMessageThrowable
 
-  def info(message: AnyRef): Unit = macro LoggerMacros.infoAnyRefMessage
+  override def info(message: AnyRef): Unit = macro LoggerMacros.infoAnyRefMessage
 
   def info(marker: Marker, message: AnyRef): Unit = macro LoggerMacros.infoMarkerAnyRefMessage
 
-  def info(message: AnyRef, t: Throwable): Unit = macro LoggerMacros.infoAnyRefMessageThrowable
+  override def info(message: AnyRef, t: Throwable): Unit = macro LoggerMacros.infoAnyRefMessageThrowable
 
   def info(marker: Marker, message: AnyRef, t: Throwable): Unit = macro LoggerMacros.infoMarkerAnyRefMessageThrowable
 
-  def info(message: String, params: AnyRef*): Unit = macro LoggerMacros.infoMessageParams
+  override def info(message: String, params: AnyRef*): Unit = macro LoggerMacros.infoMessageParams
 
   def info(marker: Marker, message: String, params: AnyRef*): Unit = macro LoggerMacros.infoMarkerMessageParams
 
   // Debug
 
-  def debug(message: String): Unit = macro LoggerMacros.debugMessage
+  override def debug(message: String): Unit = macro LoggerMacros.debugMessage
 
   def debug(marker: Marker, message: String): Unit = macro LoggerMacros.debugMarkerMessage
 
-  def debug(message: String, t: Throwable): Unit = macro LoggerMacros.debugMessageThrowable
+  override def debug(message: String, t: Throwable): Unit = macro LoggerMacros.debugMessageThrowable
 
   def debug(marker: Marker, message: String, t: Throwable): Unit = macro LoggerMacros.debugMarkerMessageThrowable
 
-  def debug(message: AnyRef): Unit = macro LoggerMacros.debugAnyRefMessage
+  override def debug(message: AnyRef): Unit = macro LoggerMacros.debugAnyRefMessage
 
   def debug(marker: Marker, message: AnyRef): Unit = macro LoggerMacros.debugMarkerAnyRefMessage
 
-  def debug(message: AnyRef, t: Throwable): Unit = macro LoggerMacros.debugAnyRefMessageThrowable
+  override def debug(message: AnyRef, t: Throwable): Unit = macro LoggerMacros.debugAnyRefMessageThrowable
 
   def debug(marker: Marker, message: AnyRef, t: Throwable): Unit = macro LoggerMacros.debugMarkerAnyRefMessageThrowable
 
-  def debug(message: String, params: AnyRef*): Unit = macro LoggerMacros.debugMessageParams
+  override def debug(message: String, params: AnyRef*): Unit = macro LoggerMacros.debugMessageParams
 
   def debug(marker: Marker, message: String, params: AnyRef*): Unit = macro LoggerMacros.debugMarkerMessageParams
 
   // Trace
 
-  def trace(message: String): Unit = macro LoggerMacros.traceMessage
+  override def trace(message: String): Unit = macro LoggerMacros.traceMessage
 
   def trace(marker: Marker, message: String): Unit = macro LoggerMacros.traceMarkerMessage
 
-  def trace(message: String, t: Throwable): Unit = macro LoggerMacros.traceMessageThrowable
+  override def trace(message: String, t: Throwable): Unit = macro LoggerMacros.traceMessageThrowable
 
   def trace(marker: Marker, message: String, t: Throwable): Unit = macro LoggerMacros.traceMarkerMessageThrowable
 
-  def trace(message: AnyRef): Unit = macro LoggerMacros.traceAnyRefMessage
+  override def trace(message: AnyRef): Unit = macro LoggerMacros.traceAnyRefMessage
 
   def trace(marker: Marker, message: AnyRef): Unit = macro LoggerMacros.traceMarkerAnyRefMessage
 
-  def trace(message: AnyRef, t: Throwable): Unit = macro LoggerMacros.traceAnyRefMessageThrowable
+  override def trace(message: AnyRef, t: Throwable): Unit = macro LoggerMacros.traceAnyRefMessageThrowable
 
   def trace(marker: Marker, message: AnyRef, t: Throwable): Unit = macro LoggerMacros.traceMarkerAnyRefMessageThrowable
 
-  def trace(message: String, params: AnyRef*): Unit = macro LoggerMacros.traceMessageParams
+  override def trace(message: String, params: AnyRef*): Unit = macro LoggerMacros.traceMessageParams
 
   def trace(marker: Marker, message: String, params: AnyRef*): Unit = macro LoggerMacros.traceMarkerMessageParams
 }
