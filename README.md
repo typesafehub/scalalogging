@@ -44,6 +44,11 @@ The following example shows how to add a dependency to the latest **snapshot** v
 
     libraryDependencies += "com.typesafe" %% "scalalogging-log4j" % "1.1.0-SNAPSHOT"
 
+Example
+-------
+
+Small example of usage is located in sub-project `scalalogging-log4j-test`. See `Log4jLogExample.scala`.
+
 Contribution policy
 -------------------
 
