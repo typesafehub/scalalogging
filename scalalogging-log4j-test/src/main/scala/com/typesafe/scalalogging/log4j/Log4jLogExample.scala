@@ -16,48 +16,52 @@
 package com.typesafe.scalalogging.log4j
 
 /**
- * Class with several methods
+ * Example
  */
-case class LogMe(default: String = "Hello world") extends Logging {
+case class LogMe(name: String = "Hello world") extends Logging {
 
   lazy val greetings = {
-    logger.debug("greetings value retrieved!")
-    println("a to je fakt divne")
-    s"${default}"
+    logger.info("greetings value retrieved!")
+    s"Hey ${name}, welcome to the world of optimized logging."
   }
 
-  /**
-   * log string: method1 - value: v=3
-   */
   private def method1() {
     val v = 3
+    // log value
     logger.info(s"method1 => value: v=${v}")
   }
 
-  /**
-   *
-   */
   private def method2() {
+    // this log doesn't appear, because severity in log4j.xml is INFO
     logger.debug("method2 => " + greetings)
   }
 
   private def method3() {
+    logger.info("method3-begin" )
+    // before this log, is called log defined in body of val greetings.
     logger.info("method3 => " + greetings)
+    logger.info("method3-end" )
   }
+
+  private def method4() {
+    // because greetings is lazy val and was accessed in method3.
+    // there is only one log message there
+    logger.info("method4 => " + greetings)
+  }
+
 
   def all() = {
     method1
     method2
     method3
+    method4
   }
 }
 
 /**
- * Application main
- * User: JuBu
- * Date: 10.8.2013
+ * Example main
  */
 object Log4jLogExample extends App {
-  LogMe() all
+  LogMe("You") all
 }
 
