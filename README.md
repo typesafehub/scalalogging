@@ -26,8 +26,8 @@ In addition ScalaLogging offers the trait `Logging` which conveniently provides 
 Prerequisites
 -------------
 
-* Scala 2.10.0
-* SLF4J 1.7.2 or Log4j 2.0-beta3
+* Scala 2.10.1
+* SLF4J 1.7.5 or Log4j 2.0-beta4
 
 Using ScalaLogging
 ------------------
@@ -43,6 +43,12 @@ The following example shows how to add a dependency to the latest **snapshot** v
     resolvers += Opts.resolver.sonatypeSnapshots
 
     libraryDependencies += "com.typesafe" %% "scalalogging-log4j" % "1.1.0-SNAPSHOT"
+
+Example
+-------
+
+Small example of usage is located in sub-project `scalalogging-log4j-test`. See `Log4jLogExample.scala`.
+To run example from sbt: type `project scalalogging-log4j-test` and then type `run` command.
 
 Contribution policy
 -------------------
