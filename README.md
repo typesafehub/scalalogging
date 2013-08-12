@@ -50,6 +50,9 @@ Example
 Small example of usage is located in sub-project `scalalogging-log4j-test`. See `Log4jLogExample.scala`.
 To run example from sbt: type `project scalalogging-log4j-test` and then type `run` command.
 
+Second example is located in `project scalalogging-slf4j-test`.
+The example is configured to run the combination of slf4j with native jdk logger.
+
 Contribution policy
 -------------------
 
