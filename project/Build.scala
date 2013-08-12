@@ -1,7 +1,9 @@
 import sbt._
 import sbt.Keys._
 import com.typesafe.sbt.SbtScalariform._
+import sbt.ScalaVersion
 import sbtrelease.ReleasePlugin._
+import scala.Some
 
 object Build extends Build {
 
@@ -61,7 +63,7 @@ object Build extends Build {
       publishArtifact := false
     ),
     dependencies = Seq(scalaloggingLog4j)
-  )
+   ).settings( libraryDependencies += ("org.apache.logging.log4j" % "log4j-core" % "2.0-beta4"))
 
   def commonSettings =
     Defaults.defaultSettings ++ 
