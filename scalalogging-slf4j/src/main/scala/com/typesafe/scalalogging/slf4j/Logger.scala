@@ -17,9 +17,14 @@
 package com.typesafe.scalalogging.slf4j
 
 import language.experimental.macros
-import org.slf4j.{ Logger => Underlying, Marker }
+import org.slf4j.{ Logger => Underlying, LoggerFactory => UnderlyingFactory, ILoggerFactory => IUnderlyingFactory, Marker }
 
 object Logger {
+  /**
+   * Create a [[com.typesafe.scalalogging.slf4j.Logger]] and the underlying `org.slf4j.Logger`.
+   * Autodetect underlying logger name from class in which it was called
+   */
+  def apply(factory: IUnderlyingFactory = UnderlyingFactory.getILoggerFactory): Logger = macro LoggerMacros.createLogger
 
   /**
    * Create a [[com.typesafe.scalalogging.slf4j.Logger]] wrapping the given underlying `org.slf4j.Logger`.

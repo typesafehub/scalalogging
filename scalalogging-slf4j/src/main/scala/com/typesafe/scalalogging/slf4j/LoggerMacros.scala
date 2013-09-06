@@ -16,12 +16,19 @@
 
 package com.typesafe.scalalogging.slf4j
 
-import org.slf4j.Marker
+import org.slf4j.{ ILoggerFactory => IUnderlyingFactory, Marker }
 import scala.reflect.macros.Context
 
 private object LoggerMacros {
 
   type LoggerContext = Context { type PrefixType = Logger }
+
+  def createLogger(c: LoggerContext)(factory: c.Expr[IUnderlyingFactory]): c.Expr[Logger] = {
+    import c.universe._
+    val enclClass = c.enclosingClass.symbol.asClass
+    val enclClassLiteral = c.Expr(Literal(Constant(enclClass.fullName)))
+    c.universe.reify(Logger(factory.splice.getLogger(enclClassLiteral.splice)))
+  }
 
   // Error
 
