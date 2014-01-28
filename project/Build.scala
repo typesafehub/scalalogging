@@ -5,7 +5,7 @@ import sbtrelease.ReleasePlugin._
 
 object Build extends Build {
 
-  val ScalaVersion = "2.10.1"
+  val ScalaVersion = "2.10.3"
 
   lazy val root = Project(
     "scalalogging",
