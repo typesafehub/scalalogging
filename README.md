@@ -18,7 +18,9 @@ Yet this idiom is too heavyweight, so that many of us just omit the `isEnabled`-
 After the macro has been applied, the code will have been transformed into the above described idiom.
 
 In addition ScalaLogging offers the trait `Logging` which conveniently provides a `Logger` instance initialized with the name of the class mixed into:
-
+    
+    import com.typesafe.scalalogging.slf4j.Logging // OR: import com.typesafe.scalalogging.log4j.Logging
+    
     class MyClass extends Logging {
       logger.debug("This is very convenient ;-)")
     }
