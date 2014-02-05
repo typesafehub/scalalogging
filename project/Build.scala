@@ -1,7 +1,9 @@
 import sbt._
 import sbt.Keys._
 import com.typesafe.sbt.SbtScalariform._
+import sbt.ScalaVersion
 import sbtrelease.ReleasePlugin._
+import scala.Some
 
 object Build extends Build {
 
@@ -37,6 +39,7 @@ object Build extends Build {
     "scalalogging-slf4j-test",
     file("scalalogging-slf4j-test"),
     settings = commonSettings ++ Seq(
+      libraryDependencies ++= Seq(Dependencies.Test.slf4jJdk14),
       publishArtifact := false
     ),
     dependencies = Seq(scalaloggingSlf4j)
@@ -58,13 +61,14 @@ object Build extends Build {
     "scalalogging-log4j-test",
     file("scalalogging-log4j-test"),
     settings = commonSettings ++ Seq(
+      libraryDependencies ++= Seq(Dependencies.Test.log4jCore),
       publishArtifact := false
     ),
     dependencies = Seq(scalaloggingLog4j)
-  )
+   )
 
   def commonSettings =
-    Defaults.defaultSettings ++ 
+    Defaults.defaultSettings ++
     scalariformSettings ++
     releaseSettings ++
     Seq(
@@ -113,6 +117,8 @@ object Build extends Build {
       val specs2 = "org.specs2" %% "specs2" % "1.14" % "test"
       val mockito = "org.mockito" % "mockito-all" % "1.9.0" % "test"
       val hamcrest = "org.hamcrest" % "hamcrest-all" % "1.1" % "test"
+      val log4jCore = "org.apache.logging.log4j" % "log4j-core" % "2.0-beta4"
+      val slf4jJdk14 = "org.slf4j" % "slf4j-jdk14" % "1.7.5"
     }
   }
 }
