@@ -16,17 +16,9 @@
 
 package com.typesafe.scalalogging.log4j
 
+import com.typesafe.scalalogging.AbstractLogging
+
 import org.apache.logging.log4j.LogManager
-
-/**
- * Requires the member `logger` of type [[$Logger]] to be defined in the class into which this trait is mixed.
- *
- * @define Logger com.typesafe.scalalogging.log4j.Logger
- */
-trait AbstractLogging {
-
-  protected def logger: Logger
-}
 
 /**
  * Adds the lazy val `logger` of type [[$Logger]] to the class into which this trait is mixed.
@@ -38,7 +30,7 @@ trait AbstractLogging {
  */
 trait Logging extends AbstractLogging {
 
-  protected lazy val logger: Logger =
+  override protected lazy val logger: Logger =
     Logger(LogManager getLogger getClass.getName)
 }
 
@@ -52,6 +44,6 @@ trait Logging extends AbstractLogging {
  */
 trait StrictLogging extends AbstractLogging {
 
-  protected val logger: Logger =
+  override protected val logger: Logger =
     Logger(LogManager getLogger getClass.getName)
 }
