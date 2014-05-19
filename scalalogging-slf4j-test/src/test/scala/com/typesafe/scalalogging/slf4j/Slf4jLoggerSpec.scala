@@ -16,7 +16,7 @@
 
 package com.typesafe.scalalogging.slf4j
 
-import org.slf4j.{ Logger => Underlying, MarkerFactory }
+import org.slf4j.{ Logger => Underlying, ILoggerFactory, LoggerFactory, MarkerFactory }
 import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
 
@@ -216,4 +216,23 @@ object Slf4jLoggerSpec extends Specification with Mockito {
       there was one(underlying).trace(Marker, Message, Throwable)
     }
   }
+
+  "Creating logger" should {
+    "provide correct logger name" in {
+      val ilfSpy = spy(LoggerFactory.getILoggerFactory)
+      new TestSuperclass(ilfSpy)
+      there was one(ilfSpy).getLogger("com.typesafe.scalalogging.slf4j.TestSuperclass")
+
+      new TestSubclass(ilfSpy)
+      there was one(ilfSpy).getLogger("com.typesafe.scalalogging.slf4j.TestSubclass")
+    }
+  }
+}
+
+class TestSuperclass(iLoggerFactory: ILoggerFactory) {
+  Logger(iLoggerFactory)
+}
+
+class TestSubclass(iLoggerFactory: ILoggerFactory) extends TestSuperclass(iLoggerFactory) {
+  Logger(iLoggerFactory)
 }
